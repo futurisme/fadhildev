@@ -44,23 +44,66 @@ function fadhilRouterPlugin(): Plugin {
     closeBundle() {
       const distDir = path.resolve(__dirname, 'dist');
       if (fs.existsSync(distDir)) {
-        const copyList = ['app', 'assets', 'apple-touch-icon.png', 'fadhil-512x512.png', 'fadhil.svg', 'favicon.ico', 'favicon.svg', 'site.webmanifest', '_redirects', 'robots.txt', 'sitemap.xml'];
-        for (const item of copyList) {
-          const srcPath = path.resolve(__dirname, item);
-          const destPath = path.resolve(distDir, item);
-          if (fs.existsSync(srcPath) && !fs.existsSync(destPath)) {
-            fs.cpSync(srcPath, destPath, { recursive: true });
+        // 1. Copy root static files to dist/
+        const rootFiles = [
+          'apple-touch-icon.png',
+          'fadhil-512x512.png',
+          'fadhil.svg',
+          'favicon.ico',
+          'favicon.svg',
+          'site.webmanifest',
+          '_redirects',
+          'robots.txt',
+          'sitemap.xml',
+        ];
+        for (const file of rootFiles) {
+          const srcPath = path.resolve(__dirname, file);
+          const destPath = path.resolve(distDir, file);
+          if (fs.existsSync(srcPath)) {
+            fs.copyFileSync(srcPath, destPath);
           }
         }
-        const distFadhil = path.resolve(distDir, 'fadhil');
-        if (!fs.existsSync(distFadhil)) {
-          fs.mkdirSync(distFadhil, { recursive: true });
+
+        // 2. Unconditionally copy app/ and assets/ to dist/
+        const srcApp = path.resolve(__dirname, 'app');
+        const destApp = path.resolve(distDir, 'app');
+        if (fs.existsSync(srcApp)) {
+          fs.cpSync(srcApp, destApp, { recursive: true, force: true });
         }
-        for (const item of ['app', 'assets']) {
-          const srcPath = path.resolve(__dirname, item);
-          const destPath = path.resolve(distFadhil, item);
-          if (fs.existsSync(srcPath) && !fs.existsSync(destPath)) {
-            fs.cpSync(srcPath, destPath, { recursive: true });
+
+        const srcAssets = path.resolve(__dirname, 'assets');
+        const destAssets = path.resolve(distDir, 'assets');
+        if (fs.existsSync(srcAssets)) {
+          fs.cpSync(srcAssets, destAssets, { recursive: true, force: true });
+        }
+
+        // 3. Mirror everything inside dist/fadhil/ for /fadhil/* path resilience
+        const distFadhil = path.resolve(distDir, 'fadhil');
+        fs.mkdirSync(distFadhil, { recursive: true });
+
+        if (fs.existsSync(srcApp)) {
+          fs.cpSync(srcApp, path.resolve(distFadhil, 'app'), { recursive: true, force: true });
+        }
+        if (fs.existsSync(srcAssets)) {
+          fs.cpSync(srcAssets, path.resolve(distFadhil, 'assets'), { recursive: true, force: true });
+        }
+
+        const distIndex = path.resolve(distDir, 'index.html');
+        if (fs.existsSync(distIndex)) {
+          fs.copyFileSync(distIndex, path.resolve(distFadhil, 'index.html'));
+        }
+
+        const distMobile = path.resolve(distDir, 'mobile/index.html');
+        const distFadhilMobile = path.resolve(distFadhil, 'mobile');
+        fs.mkdirSync(distFadhilMobile, { recursive: true });
+        if (fs.existsSync(distMobile)) {
+          fs.copyFileSync(distMobile, path.resolve(distFadhilMobile, 'index.html'));
+        }
+
+        for (const file of rootFiles) {
+          const srcPath = path.resolve(__dirname, file);
+          if (fs.existsSync(srcPath)) {
+            fs.copyFileSync(srcPath, path.resolve(distFadhil, file));
           }
         }
       }
