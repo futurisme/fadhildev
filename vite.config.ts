@@ -54,17 +54,13 @@ function fadhilRouterPlugin(): Plugin {
         }
         const distFadhil = path.resolve(distDir, 'fadhil');
         if (!fs.existsSync(distFadhil)) {
-          try {
-            fs.symlinkSync('.', distFadhil, 'junction');
-          } catch {
-            fs.mkdirSync(distFadhil, { recursive: true });
-            for (const item of copyList) {
-              const srcPath = path.resolve(__dirname, item);
-              const destPath = path.resolve(distFadhil, item);
-              if (fs.existsSync(srcPath)) {
-                fs.cpSync(srcPath, destPath, { recursive: true });
-              }
-            }
+          fs.mkdirSync(distFadhil, { recursive: true });
+        }
+        for (const item of ['app', 'assets']) {
+          const srcPath = path.resolve(__dirname, item);
+          const destPath = path.resolve(distFadhil, item);
+          if (fs.existsSync(srcPath) && !fs.existsSync(destPath)) {
+            fs.cpSync(srcPath, destPath, { recursive: true });
           }
         }
       }
