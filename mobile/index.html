@@ -5,11 +5,11 @@
       (function() {
         try {
           // Explicit view preference override (e.g., ?view=desktop or ?view=mobile)
+          var params = new URLSearchParams(window.location.search);
+          var viewParam = params.get('view');
           var isFadhilPath = window.location.pathname.startsWith('/fadhil');
           var desktopTarget = isFadhilPath ? '/fadhil/' : '/';
 
-          var params = new URLSearchParams(window.location.search);
-          var viewParam = params.get('view');
           if (viewParam === 'mobile') {
             sessionStorage.setItem('cariearsa_fadhil_pref', 'mobile');
             return;
@@ -22,44 +22,61 @@
           if (sessionStorage.getItem('cariearsa_fadhil_pref') === 'mobile') {
             return;
           }
+          if (sessionStorage.getItem('cariearsa_fadhil_pref') === 'desktop') {
+            window.location.replace(desktopTarget + window.location.search + window.location.hash);
+            return;
+          }
 
           var ua = navigator.userAgent || navigator.vendor || window.opera || '';
           var platform = navigator.platform || '';
 
-          // 1. TV & Consoles (Always redirect to Desktop version)
+          // 1. Dedicated TV / SmartTV / Console Detection (Always filter to desktop /*)
           var isTV = /SmartTV|HbbTV|BRAVIA|NetCast|Tizen|Viera|AppleTV|Xbox|PlayStation|Nintendo|Roku/i.test(ua);
           if (isTV) {
             window.location.replace(desktopTarget + window.location.search + window.location.hash);
             return;
           }
 
-          // 2. Client Hints API check
+          // 2. High-precision User-Agent Client Hints (Chromium / Modern Edge / Chrome)
           var uaData = navigator.userAgentData;
           if (uaData && uaData.mobile === true) {
-            // Confirmed mobile device -> stay on mobile version
+            // Confirmed mobile device -> stay on /mobile
             return;
           }
 
-          // 3. Mobile & Tablet User Agent matching
+          // 3. Mobile / Tablet User Agent matching (Phones, iPads, Tablets, Foldables, Android)
           var isMobileUA = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini|Mobile|Tablet|Silk|Kindle|PlayBook|Nexus|SM-|Pixel|XiaoMi|Oppo|Vivo|Realme|HarmonyOS|Huawei/i.test(ua);
           var isIPadOS = (platform === 'MacIntel' || ua.includes('Macintosh')) && (navigator.maxTouchPoints && navigator.maxTouchPoints > 1);
-
           if (isMobileUA || isIPadOS) {
-            // Confirmed mobile or tablet -> stay on mobile version
+            // Confirmed mobile or tablet -> stay on /mobile
             return;
           }
 
-          // 4. Desktop OS detection (Windows, macOS, Linux, ChromeOS)
+          // 4. Hardware pointer & touch capabilities
+          var hasTouch = (navigator.maxTouchPoints && navigator.maxTouchPoints > 0) || ('ontouchstart' in window);
+          var isCoarse = window.matchMedia && (window.matchMedia('(pointer: coarse)').matches || window.matchMedia('(hover: none)').matches);
+          var isFine = window.matchMedia && window.matchMedia('(pointer: fine)').matches && window.matchMedia('(hover: hover)').matches;
+
+          // 5. Screen & Viewport Dimensions
+          var screenMin = (window.screen && window.screen.width && window.screen.height)
+            ? Math.min(window.screen.width, window.screen.height)
+            : window.innerWidth;
+          var isMobileOrTabletDim = screenMin <= 1024 || window.innerWidth <= 1024;
+
+          // If mobile touch or tablet dimensions -> stay on /mobile
+          if ((hasTouch && isMobileOrTabletDim) || (isCoarse && isMobileOrTabletDim)) {
+            return;
+          }
+
+          // 6. Desktop OS (Windows, Mac non-iPad, Linux non-Android, ChromeOS) with mouse / fine pointer or widescreen
           var isWindows = /Windows NT|Win64|WOW64|Win32/i.test(ua) || platform.indexOf('Win') !== -1;
           var isMacDesktop = (/Macintosh|MacIntel|MacPPC|Mac68K/i.test(ua) || platform.indexOf('Mac') !== -1) && !isIPadOS;
           var isLinuxDesktop = /Linux x86_64|Linux i686/i.test(ua) && !/Android/i.test(ua);
           var isCrOSDesktop = /CrOS x86_64/i.test(ua);
-          var isDesktopOS = isWindows || isMacDesktop || isLinuxDesktop || isCrOSDesktop;
+          var isDesktopOS = (isWindows || isMacDesktop || isLinuxDesktop || isCrOSDesktop) && isFine;
 
-          var isFinePointer = window.matchMedia && window.matchMedia('(pointer: fine)').matches && window.matchMedia('(hover: hover)').matches;
-
-          // 5. Screen boundary check: Desktop/Laptop/Widescreen (screen width > 1024 or fine pointer desktop OS)
-          if (isDesktopOS || window.innerWidth > 1024 || (isFinePointer && window.innerWidth >= 768)) {
+          // If desktop OS, laptop, widescreen, or mouse with width > 1024 -> redirect to desktop /*
+          if (isDesktopOS || (isFine && window.innerWidth > 1024) || (!isMobileUA && !isIPadOS && window.innerWidth > 1024)) {
             window.location.replace(desktopTarget + window.location.search + window.location.hash);
           }
         } catch (e) {}
@@ -67,26 +84,99 @@
     </script>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Fadhil Akbar Cariearsa // Official Cyber Manga Portfolio 2026 (Mobile)</title>
+    <title>Fadhil Akbar Cariearsa - Developer Portfolio</title>
     <meta
       name="description"
-      content="Official Mobile Cyber-Manga Portfolio of Fadhil Akbar Cariearsa (fadhil.dev / cariearsa.com) — Optimized for high-speed mobile touch devices, smartphones, and tablets."
+      content="Official portfolio of Fadhil Akbar Cariearsa showcasing software development projects, interactive web applications, technical skills, and core tools."
     />
     <meta
       name="keywords"
-      content="Fadhil Akbar Cariearsa, fadhil.dev, cariearsa.com, Cyberpunk Manga Portfolio, Mobile Portfolio, Full-Stack Developer, UI/UX Design, Cybersecurity, Web Apps 2026"
+      content="Fadhil Akbar Cariearsa, developer portfolio, software engineering, web applications, programming skills, developer tools, fadhil.dev, cariearsa.com"
     />
     <meta name="author" content="Fadhil Akbar Cariearsa" />
+    <meta name="creator" content="Fadhil Akbar Cariearsa" />
+    <meta name="publisher" content="Fadhil Akbar Cariearsa" />
+    <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
+    <meta name="googlebot" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
+    <meta name="bingbot" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
     <meta name="theme-color" content="#05060A" />
 
-    <!-- Open Graph / Meta -->
+    <!-- Canonical and Alternate hreflang Links for Google Search & Browsers -->
+    <link rel="canonical" href="https://cariearsa.com/fadhil/" />
+    <link rel="alternate" media="only screen and (max-width: 1024px)" href="https://cariearsa.com/fadhil/mobile/" />
+    <link rel="alternate" hreflang="x-default" href="https://cariearsa.com/fadhil/" />
+    <link rel="alternate" hreflang="en" href="https://cariearsa.com/fadhil/" />
+    <link rel="alternate" hreflang="id" href="https://cariearsa.com/fadhil/" />
+    <link rel="alternate" hreflang="ja" href="https://cariearsa.com/fadhil/" />
+
+    <!-- Open Graph Protocol / Social Embed Preview (Discord, WhatsApp, Telegram, LinkedIn, Facebook) -->
+    <meta property="og:site_name" content="Fadhil Akbar Cariearsa - Developer Portfolio" />
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://cariearsa.com/fadhil/mobile/" />
-    <meta property="og:title" content="Fadhil Akbar Cariearsa // Cyber Manga Portfolio (Mobile)" />
-    <meta property="og:description" content="Official personal portfolio with high-density cyber manga visuals, interactive video archive, core tech stack, active social channels, and live portfolio apps (Mobile Version)." />
-    <meta property="og:image" content="/fadhil/assets/images/portfolio-banner.avif" />
+    <meta property="og:title" content="Fadhil Akbar Cariearsa - Developer Portfolio" />
+    <meta property="og:description" content="Official portfolio of Fadhil Akbar Cariearsa showcasing software development projects, interactive web applications, technical skills, and core tools." />
+    <meta property="og:locale" content="en_US" />
+    <meta property="og:locale:alternate" content="id_ID" />
+    <meta property="og:locale:alternate" content="ja_JP" />
+    <meta property="og:image" content="https://cariearsa.com/fadhil/assets/images/portfolio-banner.jpg" />
+    <meta property="og:image:secure_url" content="https://cariearsa.com/fadhil/assets/images/portfolio-banner.jpg" />
+    <meta property="og:image:type" content="image/jpeg" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="Fadhil Akbar Cariearsa - Developer Portfolio Preview" />
 
-    <link rel="canonical" href="https://cariearsa.com/fadhil/" />
+    <!-- Twitter / X Cards -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:site" content="@cariearsa" />
+    <meta name="twitter:creator" content="@cariearsa" />
+    <meta name="twitter:title" content="Fadhil Akbar Cariearsa - Developer Portfolio" />
+    <meta name="twitter:description" content="Official portfolio of Fadhil Akbar Cariearsa showcasing software development projects, interactive web applications, technical skills, and core tools." />
+    <meta name="twitter:image" content="https://cariearsa.com/fadhil/assets/images/portfolio-banner.jpg" />
+    <meta name="twitter:image:alt" content="Fadhil Akbar Cariearsa - Developer Portfolio Preview" />
+
+    <!-- Schema.org Structured Data (JSON-LD) for Search Engine Rich Snippets -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@graph": [
+          {
+            "@type": "WebSite",
+            "@id": "https://cariearsa.com/fadhil/#website",
+            "url": "https://cariearsa.com/fadhil/",
+            "name": "Fadhil Akbar Cariearsa - Developer Portfolio",
+            "description": "Official portfolio of Fadhil Akbar Cariearsa showcasing software development projects, interactive web applications, technical skills, and core tools.",
+            "inLanguage": ["en", "id", "ja"]
+          },
+          {
+            "@type": "ProfilePage",
+            "@id": "https://cariearsa.com/fadhil/#profilepage-mobile",
+            "url": "https://cariearsa.com/fadhil/mobile/",
+            "name": "Fadhil Akbar Cariearsa - Developer Portfolio",
+            "isPartOf": {
+              "@id": "https://cariearsa.com/fadhil/#website"
+            },
+            "description": "Official portfolio of Fadhil Akbar Cariearsa showcasing software development projects, interactive web applications, technical skills, and core tools.",
+            "mainEntity": {
+              "@type": "Person",
+              "@id": "https://cariearsa.com/fadhil/#person",
+              "name": "Fadhil Akbar Cariearsa",
+              "alternateName": ["Fadhil Cariearsa", "fadhil.dev"],
+              "url": "https://cariearsa.com/fadhil/",
+              "image": "https://cariearsa.com/fadhil/assets/images/portfolio-banner.jpg",
+              "jobTitle": "Software Developer & Designer",
+              "sameAs": [
+                "https://github.com/futurisme",
+                "https://linkedin.com/in/cariearsa",
+                "https://instagram.com/cariearsa",
+                "https://leetcode.com/cariearsa",
+                "https://tryhackme.com/p/cariearsa",
+                "https://app.daily.dev/cariearsa"
+              ]
+            }
+          }
+        ]
+      }
+    </script>
 
     <!-- Favicon & Touch Icons -->
     <link rel="icon" type="image/svg+xml" href="/fadhil/favicon.svg" />
@@ -658,130 +748,86 @@
         box-shadow: 1px 1px 0px #FF003C !important;
       }
     </style>
-
-    <!-- Mobile Top Buttons Layout & Sizing Overrides -->
-    <style id="fadhil-mobile-header-styles">
-      .fadhil-mobile-header {
+    <style id="fadhil-mobile-adjustments">
+      /* ==========================================================================
+         MOBILE OPTIMIZATIONS: SLIM COMPACT HEADER ACTIONS & SINGLE-COLUMN ORDER
+         ========================================================================== */
+      .fadhil-header {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 8px;
+        padding: 4px 0 6px;
+      }
+      .header-left {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        flex-wrap: wrap;
+        width: 100%;
+      }
+      .cyber-logo-badge {
+        flex-shrink: 0;
+      }
+      .cyber-cariearsa-tag-btn {
+        flex-shrink: 0;
+      }
+      /* Compact action buttons row - fit without wasting screen space */
+      .header-actions {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        flex-wrap: wrap;
+        width: 100%;
+        margin-top: 2px;
+      }
+      /* Cloud Database Button & Portfolios Button sizing */
+      .cyber-action-btn {
+        padding: 4px 10px;
+        font-size: 0.78rem;
+        letter-spacing: 0.8px;
+        gap: 5px;
+        filter: drop-shadow(2px 2px 0px var(--manga-accent));
+      }
+      .cyber-action-btn::before {
+        clip-path: polygon(6px 0%, 100% 0%, 100% calc(100% - 6px), calc(100% - 6px) 100%, 0% 100%, 0% 6px);
+      }
+      .cyber-action-btn::after {
+        clip-path: polygon(5px 0%, 100% 0%, 100% calc(100% - 5px), calc(100% - 5px) 100%, 0% 100%, 0% 5px);
+      }
+      .cyber-action-btn.btn-cloud-db {
+        padding: 4px 10px;
+        font-size: 0.78rem;
+        letter-spacing: 0.8px;
+        gap: 5px;
+        filter: drop-shadow(2px 2px 0px var(--manga-red));
+      }
+      /* Email Pill sizing */
+      .email-cyber-btn {
+        padding: 4px 8px;
+        font-size: 0.76rem;
+        letter-spacing: 0.5px;
+        box-shadow: 2px 2px 0px var(--manga-red);
+      }
+      /* Theme toggle button sizing */
+      .cyber-theme-btn {
+        width: 28px;
+        height: 28px;
+        padding: 2px;
+        border-width: 1.5px;
+      }
+      .cyber-theme-btn img {
+        width: 18px;
+        height: 18px;
+      }
+      /* Single column mobile flow grid */
+      .mobile-bento-flow {
         display: flex !important;
         flex-direction: column !important;
-        align-items: stretch !important;
-        gap: 8px !important;
-        padding: 4px 0 8px !important;
+        gap: 12px !important;
+      }
+      .mobile-bento-flow > .cyber-frame {
         width: 100% !important;
-      }
-      .fadhil-mobile-top-row {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        width: 100%;
-        gap: 8px;
-      }
-      .fadhil-mobile-brand-group {
-        display: flex;
-        align-items: center;
-        gap: 8px;
-        flex-wrap: nowrap;
-        min-width: 0;
-      }
-      .fadhil-mobile-brand-group .logo-box-wrapper {
-        filter: drop-shadow(2.5px 2.5px 0px #FF003C);
-      }
-      .fadhil-mobile-brand-group .cyber-logo-title {
-        font-size: clamp(1.10rem, 4.4vw, 1.40rem) !important;
-        letter-spacing: 0.5px;
-      }
-      .fadhil-mobile-brand-group .logo-inner-plate {
-        padding: 4px 10px 4px 8px !important;
-        min-height: 36px;
-        display: inline-flex;
-        align-items: center;
-      }
-      .fadhil-mobile-brand-group .cariearsa-btn-plate {
-        padding: 4px 12px 4px 14px !important;
-        min-height: 36px;
-        display: inline-flex;
-        align-items: center;
-      }
-      .fadhil-mobile-brand-group .cariearsa-btn-text {
-        font-size: clamp(0.88rem, 3.5vw, 1.08rem) !important;
-        letter-spacing: 0.6px;
-      }
-      .fadhil-mobile-theme-btn {
-        width: 36px !important;
-        height: 36px !important;
-        flex-shrink: 0;
-        display: inline-flex !important;
-        align-items: center;
-        justify-content: center;
-        box-shadow: 2.5px 2.5px 0px var(--ink-true-black) !important;
-      }
-      .fadhil-mobile-actions-deck {
-        display: grid !important;
-        grid-template-columns: 1.12fr 1.32fr 1fr;
-        gap: 6px !important;
-        width: 100% !important;
-        margin: 0 !important;
-        padding: 0 !important;
-      }
-      .fadhil-mobile-actions-deck .fadhil-mobile-btn {
-        width: 100% !important;
-        min-width: 0 !important;
-        display: inline-flex !important;
-        align-items: center !important;
-        justify-content: center !important;
-        text-align: center !important;
-        padding: 6px 4px !important;
-        min-height: 38px !important;
-        box-sizing: border-box;
-      }
-      .fadhil-mobile-actions-deck .cyber-action-btn.btn-cloud-db {
-        font-size: clamp(0.72rem, 2.5vw, 0.85rem) !important;
-        letter-spacing: 0.4px !important;
-        gap: 4px !important;
-        filter: drop-shadow(2.5px 2.5px 0px var(--manga-red)) !important;
-      }
-      .fadhil-mobile-actions-deck .cyber-action-btn.btn-cloud-db:hover,
-      .fadhil-mobile-actions-deck .cyber-action-btn.btn-cloud-db:active {
-        filter: drop-shadow(2.5px 2.5px 0px var(--manga-accent)) !important;
-      }
-      .fadhil-mobile-actions-deck .email-cyber-btn {
-        font-size: clamp(0.70rem, 2.4vw, 0.82rem) !important;
-        letter-spacing: 0.3px !important;
-        box-shadow: 2.5px 2.5px 0px var(--manga-red) !important;
-      }
-      .fadhil-mobile-actions-deck .email-cyber-btn:hover,
-      .fadhil-mobile-actions-deck .email-cyber-btn:active {
-        box-shadow: 2.5px 2.5px 0px var(--manga-accent) !important;
-      }
-      .fadhil-mobile-actions-deck .email-cyber-btn .email-user {
-        font-size: clamp(0.72rem, 2.5vw, 0.84rem);
-      }
-      .fadhil-mobile-actions-deck .email-cyber-btn .email-domain {
-        font-size: clamp(0.68rem, 2.3vw, 0.80rem);
-      }
-      .fadhil-mobile-actions-deck .cyber-action-btn:not(.btn-cloud-db) {
-        font-size: clamp(0.72rem, 2.5vw, 0.85rem) !important;
-        letter-spacing: 0.4px !important;
-        gap: 4px !important;
-        filter: drop-shadow(2.5px 2.5px 0px var(--manga-accent)) !important;
-      }
-      .fadhil-mobile-actions-deck .cyber-action-btn:not(.btn-cloud-db):hover,
-      .fadhil-mobile-actions-deck .cyber-action-btn:not(.btn-cloud-db):active {
-        filter: drop-shadow(2.5px 2.5px 0px var(--manga-red)) !important;
-      }
-      @media (min-width: 600px) {
-        .fadhil-mobile-actions-deck {
-          gap: 10px !important;
-        }
-        .fadhil-mobile-actions-deck .fadhil-mobile-btn {
-          padding: 8px 12px !important;
-          min-height: 42px !important;
-        }
-        .fadhil-mobile-actions-deck .cyber-action-btn.btn-cloud-db,
-        .fadhil-mobile-actions-deck .email-cyber-btn,
-        .fadhil-mobile-actions-deck .cyber-action-btn:not(.btn-cloud-db) {
-          font-size: 0.90rem !important;
-        }
+        grid-column: span 12 !important;
       }
     </style>
   </head>
@@ -814,77 +860,69 @@
       </div>
     </div>
 
-    <!-- Main High-Density Shell -->
+    <!-- Main High-Density Desktop Shell -->
     <div class="fadhil-shell">
-      <!-- Mobile Cyber Header & Navigation Strip -->
-      <header class="fadhil-header fadhil-mobile-header" role="banner">
-        <!-- Row 1: Brand & Theme Row -->
-        <div class="fadhil-mobile-top-row">
-          <div class="header-left fadhil-mobile-brand-group">
-            <a href="/fadhil/mobile/" id="btn-cyber-logo" class="cyber-logo-badge" title="Fadhil Akbar Cariearsa Official Portfolio" aria-label="Fadhil Dev Home">
-              <div class="logo-box-wrapper" id="logo-fadhil-wrapper">
-                <!-- Outline Kuning Cerah Terang (#FFE600): membentuk batas luar polygon cut-corner -->
-                <div class="logo-outline-layer" aria-hidden="true"></div>
-                <!-- Inner Plate Hitam: urutan index 2 -->
-                <div class="logo-inner-plate" id="logo-inner-plate">
-                  <h1 class="cyber-logo-title" id="cyber-logo-heading">
-                    <span class="logo-bracket bracket-open">&lt;</span><span class="logo-part-white">FA</span><span class="logo-part-pink">DH</span><span class="logo-part-sky">IL</span><span class="logo-part-yellow">.DEV</span><span class="logo-bracket bracket-close">&gt;</span>
-                  </h1>
-                </div>
-                <!-- Garis Tegak Biru Langit Cerah: diawal textbox judul, urutan index 10 -->
-                <div class="logo-vertical-blue-bar" aria-hidden="true"></div>
+      <!-- Header & Navigation Strip -->
+      <header class="fadhil-header" role="banner">
+        <div class="header-left">
+          <a href="/fadhil/" id="btn-cyber-logo" class="cyber-logo-badge" title="Fadhil Akbar Cariearsa Official Portfolio" aria-label="Fadhil Dev Home">
+            <div class="logo-box-wrapper" id="logo-fadhil-wrapper">
+              <!-- Outline Kuning Cerah Terang (#FFE600): membentuk batas luar polygon cut-corner -->
+              <div class="logo-outline-layer" aria-hidden="true"></div>
+              <!-- Inner Plate Hitam: urutan index 2 -->
+              <div class="logo-inner-plate" id="logo-inner-plate">
+                <h1 class="cyber-logo-title" id="cyber-logo-heading">
+                  <span class="logo-bracket bracket-open">&lt;</span><span class="logo-part-white">FA</span><span class="logo-part-pink">DH</span><span class="logo-part-sky">IL</span><span class="logo-part-yellow">.DEV</span><span class="logo-bracket bracket-close">&gt;</span>
+                </h1>
               </div>
-            </a>
-            <!-- Direct Button CARIEARSA.COM: Cyber parallelogram with bottom-right chamfer cut, white outline, bright green shadow (#00FF66) -->
-            <a href="https://cariearsa.com" id="btn-cariearsa-tag" class="cyber-cariearsa-tag-btn" title="Kunjungi CARIEARSA.COM" target="_blank" rel="noopener noreferrer" aria-label="Visit CARIEARSA.COM">
-              <div class="cariearsa-outline-layer" aria-hidden="true"></div>
-              <div class="cariearsa-btn-plate" id="cariearsa-tag-plate">
-                <span class="cariearsa-btn-text">CARIEARSA.COM</span>
-              </div>
-            </a>
-          </div>
-
-          <!-- Theme Toggle Button -->
-          <button
-            type="button"
-            class="cyber-theme-btn theme-toggle fadhil-mobile-theme-btn"
-            aria-label="Switch between Dark Manga and Light Manga theme"
-            aria-pressed="false"
-            title="Ganti Tema (Dark / Light)"
-          >
-            <img src="/fadhil/assets/images/theme.avif" alt="Theme" width="24" height="24" />
-          </button>
+              <!-- Garis Tegak Biru Langit Cerah: diawal textbox judul, urutan index 10 -->
+              <div class="logo-vertical-blue-bar" aria-hidden="true"></div>
+            </div>
+          </a>
+          <!-- Direct Button CARIEARSA.COM: Cyber parallelogram with bottom-right chamfer cut, white outline, bright green shadow (#00FF66) -->
+          <a href="https://cariearsa.com" id="btn-cariearsa-tag" class="cyber-cariearsa-tag-btn" title="Kunjungi CARIEARSA.COM" target="_blank" rel="noopener noreferrer" aria-label="Visit CARIEARSA.COM">
+            <div class="cariearsa-outline-layer" aria-hidden="true"></div>
+            <div class="cariearsa-btn-plate" id="cariearsa-tag-plate">
+              <span class="cariearsa-btn-text">CARIEARSA.COM</span>
+            </div>
+          </a>
         </div>
 
-        <!-- Row 2: Mobile Action Controls Deck -->
-        <nav class="header-actions fadhil-mobile-actions-deck" aria-label="Portfolio navigation">
+        <nav class="header-actions" aria-label="Portfolio navigation">
           <!-- Cloud Database -->
-          <a href="/cloud/" class="cyber-action-btn btn-cloud-db fadhil-mobile-btn" id="btn-cloud-database" title="Buka Cloud Database">
+          <a href="/cloud/" class="cyber-action-btn btn-cloud-db" id="btn-cloud-database" title="Buka Cloud Database">
             <span>☁</span>
             <span>CLOUD DATABASE</span>
           </a>
 
           <!-- Email Pill -->
-          <a href="mailto:fadhil@fadhil.dev" class="email-cyber-btn fadhil-mobile-btn" id="btn-email-fadhil" title="Kirim email ke fadhil@fadhil.dev">
+          <a href="mailto:fadhil@fadhil.dev" class="email-cyber-btn" id="btn-email-fadhil" title="Kirim email ke fadhil@fadhil.dev">
             <span>
               <span class="email-user">fadhil</span><span class="email-domain">@fadhil.dev</span>
             </span>
           </a>
 
           <!-- Portfolios Jump -->
-          <a href="#portfolios-section" class="cyber-action-btn fadhil-mobile-btn" title="Lihat daftar aplikasi portofolio">
+          <a href="#portfolios-section" class="cyber-action-btn" title="Lihat daftar aplikasi portofolio">
             <span>📂</span>
             <span>PORTFOLIOS</span>
           </a>
+
+          <!-- Theme Toggle -->
+          <button
+            type="button"
+            class="cyber-theme-btn theme-toggle"
+            aria-label="Switch between Dark Manga and Light Manga theme"
+            aria-pressed="false"
+            title="Ganti Tema (Dark / Light)"
+          >
+            <img src="/fadhil/assets/images/theme.avif" alt="Theme" width="24" height="24" />
+          </button>
         </nav>
       </header>
 
-      <!-- Desktop Bento Manga Grid (12 Columns) -->
-      <main class="bento-grid" role="main">
-        <!-- ===================================================================
-             COLUMN LEFT (7 COLS): HERO BANNER / VIDEO + SKILLS & LUAU WIDGET
-             =================================================================== -->
-        <div class="hero-column">
+      <!-- Mobile Bento Manga Grid (Ordered Top-to-Bottom: Banner -> About -> Socials -> Tools -> Skills -> Portfolios) -->
+      <main class="bento-grid mobile-bento-flow" role="main">
           <!-- Hero Banner & Interactive Video Card (100% Size, Zero Top/Bottom Bezel) -->
           <div class="cyber-frame cyber-frame-cut-both hero-banner-frame">
             <div class="cyber-card-content hero-card-bleed">
@@ -952,70 +990,6 @@
             </div>
           </div>
 
-          <!-- Card: Skills (3 Sub-Cards: Creative & Art, Technology & Development, Cyber & Research) -->
-          <div class="cyber-frame skills-cyber-frame" id="skills-cyber-frame">
-            <div class="cyber-card-content">
-              <div class="card-header-bar">
-                <div class="card-title-tag">
-                  <span class="cyber-title-box">SKILLS</span>
-                  <span class="cyber-jp-box">スキル</span>
-                </div>
-                <span class="card-status-pill">6 CAPABILITIES</span>
-              </div>
-              <div class="skills-box-inner" id="skills-box-inner">
-                <!-- Sub-card 1: CREATIVE AND ART -->
-                <div class="skill-subcard" id="skill-subcard-creative">
-                  <div class="skill-subcard-label">CREATIVE AND ART</div>
-                  <div class="skill-subcard-grid">
-                    <div class="skill-pill-item skill-variant-1" tabindex="0" role="button" aria-label="3D Animation">
-                      <span>3D Animation</span>
-                      <span class="skill-jp">3Dアニメーション</span>
-                    </div>
-                    <div class="skill-pill-item skill-variant-2" tabindex="0" role="button" aria-label="2D Art & Illustration">
-                      <span>2D Art &amp; Illustration</span>
-                      <span class="skill-jp">2Dアート＆イラスト</span>
-                    </div>
-                  </div>
-                </div>
-
-                <!-- Sub-card 2: TECHNOLOGY AND DEVELOPMENT (Zig-zag) -->
-                <div class="skill-subcard" id="skill-subcard-technology">
-                  <div class="skill-subcard-label">TECHNOLOGY AND DEVELOPMENT</div>
-                  <div class="skill-subcard-grid">
-                    <div class="skill-pill-item skill-variant-2" tabindex="0" role="button" aria-label="Full-Stack Development">
-                      <span>Full-Stack Development</span>
-                      <span class="skill-jp">フルスタック開発</span>
-                    </div>
-                    <div class="skill-pill-item skill-variant-1" tabindex="0" role="button" aria-label="UI/UX Design">
-                      <span>UI/UX Design</span>
-                      <span class="skill-jp">UI/UXデザイン</span>
-                    </div>
-                  </div>
-                </div>
-
-                <!-- Sub-card 3: CYBER AND RESEARCH (Zig-zag) -->
-                <div class="skill-subcard" id="skill-subcard-cyber">
-                  <div class="skill-subcard-label">CYBER AND RESEARCH</div>
-                  <div class="skill-subcard-grid">
-                    <div class="skill-pill-item skill-variant-1" tabindex="0" role="button" aria-label="Digital Psychology">
-                      <span>Digital Psychology</span>
-                      <span class="skill-jp">デジタル心理学</span>
-                    </div>
-                    <div class="skill-pill-item skill-variant-2" tabindex="0" role="button" aria-label="Technical Writing">
-                      <span>Technical Writing</span>
-                      <span class="skill-jp">テクニカルライティング</span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- ===================================================================
-             COLUMN RIGHT (5 COLS): ABOUT ME, SOCIALS (14), TOOLS (10)
-             =================================================================== -->
-        <div class="profile-column">
           <!-- Card 1: About Me & Core Tech Stack -->
           <div class="cyber-frame">
             <div class="cyber-card-content">
@@ -1386,7 +1360,65 @@
               </div>
             </div>
           </div>
-        </div>
+
+          <!-- Card: Skills (3 Sub-Cards: Creative & Art, Technology & Development, Cyber & Research) -->
+          <div class="cyber-frame skills-cyber-frame" id="skills-cyber-frame">
+            <div class="cyber-card-content">
+              <div class="card-header-bar">
+                <div class="card-title-tag">
+                  <span class="cyber-title-box">SKILLS</span>
+                  <span class="cyber-jp-box">スキル</span>
+                </div>
+                <span class="card-status-pill">6 CAPABILITIES</span>
+              </div>
+              <div class="skills-box-inner" id="skills-box-inner">
+                <!-- Sub-card 1: CREATIVE AND ART -->
+                <div class="skill-subcard" id="skill-subcard-creative">
+                  <div class="skill-subcard-label">CREATIVE AND ART</div>
+                  <div class="skill-subcard-grid">
+                    <div class="skill-pill-item skill-variant-1" tabindex="0" role="button" aria-label="3D Animation">
+                      <span>3D Animation</span>
+                      <span class="skill-jp">3Dアニメーション</span>
+                    </div>
+                    <div class="skill-pill-item skill-variant-2" tabindex="0" role="button" aria-label="2D Art & Illustration">
+                      <span>2D Art &amp; Illustration</span>
+                      <span class="skill-jp">2Dアート＆イラスト</span>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Sub-card 2: TECHNOLOGY AND DEVELOPMENT (Zig-zag) -->
+                <div class="skill-subcard" id="skill-subcard-technology">
+                  <div class="skill-subcard-label">TECHNOLOGY AND DEVELOPMENT</div>
+                  <div class="skill-subcard-grid">
+                    <div class="skill-pill-item skill-variant-2" tabindex="0" role="button" aria-label="Full-Stack Development">
+                      <span>Full-Stack Development</span>
+                      <span class="skill-jp">フルスタック開発</span>
+                    </div>
+                    <div class="skill-pill-item skill-variant-1" tabindex="0" role="button" aria-label="UI/UX Design">
+                      <span>UI/UX Design</span>
+                      <span class="skill-jp">UI/UXデザイン</span>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Sub-card 3: CYBER AND RESEARCH (Zig-zag) -->
+                <div class="skill-subcard" id="skill-subcard-cyber">
+                  <div class="skill-subcard-label">CYBER AND RESEARCH</div>
+                  <div class="skill-subcard-grid">
+                    <div class="skill-pill-item skill-variant-1" tabindex="0" role="button" aria-label="Digital Psychology">
+                      <span>Digital Psychology</span>
+                      <span class="skill-jp">デジタル心理学</span>
+                    </div>
+                    <div class="skill-pill-item skill-variant-2" tabindex="0" role="button" aria-label="Technical Writing">
+                      <span>Technical Writing</span>
+                      <span class="skill-jp">テクニカルライティング</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
 
         <!-- ===================================================================
              FULL WIDTH ROW (12 COLS): 4 FEATURED LEARNING PORTFOLIO APPS

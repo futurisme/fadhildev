@@ -1,2 +1,0 @@
-# Cloudflare Pages redirect rules for fadhildev
-/fadhil/* /:splat 200
