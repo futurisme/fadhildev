@@ -2,6 +2,28 @@ import path from 'path';
 import fs from 'fs';
 import {defineConfig, Plugin} from 'vite';
 
+const MIME_TYPES: Record<string, string> = {
+  '.css': 'text/css; charset=utf-8',
+  '.js': 'application/javascript; charset=utf-8',
+  '.mjs': 'application/javascript; charset=utf-8',
+  '.json': 'application/json; charset=utf-8',
+  '.webmanifest': 'application/manifest+json; charset=utf-8',
+  '.svg': 'image/svg+xml',
+  '.png': 'image/png',
+  '.jpg': 'image/jpeg',
+  '.jpeg': 'image/jpeg',
+  '.avif': 'image/avif',
+  '.webp': 'image/webp',
+  '.gif': 'image/gif',
+  '.ico': 'image/x-icon',
+  '.woff2': 'font/woff2',
+  '.woff': 'font/woff',
+  '.ttf': 'font/ttf',
+  '.otf': 'font/otf',
+  '.txt': 'text/plain; charset=utf-8',
+  '.xml': 'application/xml; charset=utf-8',
+};
+
 function fadhilRouterPlugin(): Plugin {
   return {
     name: 'fadhil-router-plugin',
@@ -12,28 +34,52 @@ function fadhilRouterPlugin(): Plugin {
         const pathname = urlObj.pathname;
         const search = urlObj.search;
 
-        // Redirect /fadhil/mobile or /fadhil/mobile/ -> /mobile/
         if (pathname === '/fadhil/mobile' || pathname === '/fadhil/mobile/') {
           res.writeHead(301, { Location: `/mobile/${search}` });
           res.end();
           return;
         }
 
-        // Redirect /fadhil or /fadhil/ -> /
         if (pathname === '/fadhil' || pathname === '/fadhil/') {
           res.writeHead(301, { Location: `/${search}` });
           res.end();
           return;
         }
 
-        // Normalize /mobile to /mobile/
         if (pathname === '/mobile') {
           res.writeHead(301, { Location: `/mobile/${search}` });
           res.end();
           return;
         }
 
-        // Rewrite any /fadhil/* asset / resource requests to /*
+        const cleanPath = (pathname.startsWith('/fadhil/')
+          ? pathname.slice('/fadhil'.length)
+          : pathname).replace(/^\//, '');
+
+        const ext = path.extname(cleanPath).toLowerCase();
+        if (ext && MIME_TYPES[ext]) {
+          const candidatePaths = [
+            path.resolve(__dirname, cleanPath),
+            path.resolve(__dirname, 'public', cleanPath),
+            path.resolve(__dirname, 'public/fadhil', cleanPath),
+          ];
+
+          for (const cand of candidatePaths) {
+            if (fs.existsSync(cand)) {
+              try {
+                const stat = fs.statSync(cand);
+                if (stat.isFile()) {
+                  res.setHeader('Content-Type', MIME_TYPES[ext]);
+                  res.setHeader('Content-Length', stat.size);
+                  res.setHeader('Cache-Control', 'no-cache');
+                  fs.createReadStream(cand).pipe(res);
+                  return;
+                }
+              } catch (_) {}
+            }
+          }
+        }
+
         if (pathname.startsWith('/fadhil/')) {
           req.url = pathname.slice('/fadhil'.length) + search;
         }
