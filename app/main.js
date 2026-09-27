@@ -93,22 +93,27 @@
       "aria-label",
       isLight ? "Switch to Cyber Dark theme" : "Switch to Manga Light theme"
     );
-    try {
-      localStorage.setItem("portfolio-theme", isLight ? "light" : "dark");
-    } catch {}
+    const metaTheme = document.querySelector('meta[name="theme-color"]');
+    if (metaTheme) {
+      metaTheme.setAttribute("content", isLight ? "#240308" : "#05060A");
+    }
   };
 
+  // Enforce default ALWAYS dark theme upon entry, refresh, or returning to page
   try {
-    setTheme(localStorage.getItem("portfolio-theme") === "light");
-  } catch {
-    setTheme(false);
-  }
+    localStorage.removeItem("portfolio-theme");
+  } catch {}
+  setTheme(false);
 
   const toggleTheme = () => {
-    themeToggle?.classList.remove("is-spinning");
-    if (themeToggle) void themeToggle.offsetWidth;
-    themeToggle?.classList.add("is-spinning");
-    setTheme(!document.body.classList.contains("light-theme"));
+    if (themeToggle) {
+      themeToggle.classList.remove("is-spinning");
+      requestAnimationFrame(() => {
+        themeToggle.classList.add("is-spinning");
+      });
+    }
+    const isNowLight = !document.body.classList.contains("light-theme");
+    setTheme(isNowLight);
     playCyberSound('click');
   };
 
