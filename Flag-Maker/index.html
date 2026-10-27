@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <title>Flag Maker – Custom Vector & Vexillology Design Tool | Fadhil Akbar</title>
+    <meta name="description" content="Flag Maker is an interactive vexillology application created by Fadhil Akbar Cariearsa for designing, customizing, and exporting unique flags." />
+    <meta name="keywords" content="Flag Maker, Fadhil Akbar Cariearsa, web portfolio, Vexillology & Graphic Design, HTML5 Canvas, SVG Engine, JavaScript, CSS3, Design Systems" />
+    <meta name="author" content="Fadhil Akbar Cariearsa" />
+    <meta name="robots" content="noindex, nofollow, noarchive" />
+    <meta name="theme-color" content="#05060A" />
+
+    <!-- Canonical and Alternate hreflang -->
+    <link rel="canonical" href="https://fadhil.dev/" />
+    <link rel="alternate" hreflang="x-default" href="https://fadhil.dev/Flag-Maker" />
+    <link rel="alternate" hreflang="en" href="https://fadhil.dev/Flag-Maker" />
+
+    <!-- Open Graph Metadata -->
+    <meta property="og:site_name" content="Fadhil Akbar Cariearsa - Developer Portfolio" />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://fadhil.dev/Flag-Maker" />
+    <meta property="og:title" content="Flag Maker – Custom Vector & Vexillology Design Tool | Fadhil Akbar" />
+    <meta property="og:description" content="Flag Maker is an interactive vexillology application created by Fadhil Akbar Cariearsa for designing, customizing, and exporting unique flags." />
+    <meta property="og:image" content="https://fadhil.dev/assets/images/flagmaker-banner.jpg" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="Flag Maker Preview Banner" />
+
+    <!-- Twitter / X Cards -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:site" content="@cariearsa" />
+    <meta name="twitter:creator" content="@cariearsa" />
+    <meta name="twitter:title" content="Flag Maker – Custom Vector & Vexillology Design Tool | Fadhil Akbar" />
+    <meta name="twitter:description" content="Flag Maker is an interactive vexillology application created by Fadhil Akbar Cariearsa for designing, customizing, and exporting unique flags." />
+    <meta name="twitter:image" content="https://fadhil.dev/assets/images/flagmaker-banner.jpg" />
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Bangers&family=Noto+Sans+JP:wght@400;700;900&family=Oswald:wght@500;700;800;900&display=swap" rel="stylesheet" />
+
+    <!-- Favicons -->
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+
+    <!-- Styles -->
+    <link rel="stylesheet" href="/app/styles.css" />
+
+    <!-- Inline Theme Check -->
+    <script>
+      (function() {
+        try {
+          var t = localStorage.getItem("portfolio-theme");
+          if (t === "light") {
+            document.documentElement.setAttribute("data-theme", "light");
+            if (document.body) document.body.classList.add("light-theme");
+          } else {
+            document.documentElement.setAttribute("data-theme", "dark");
+          }
+        } catch(e) {}
+      })();
+    </script>
+
+    <!-- Structured Data (JSON-LD) -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@graph": [
+          {
+            "@type": "WebApplication",
+            "@id": "https://fadhil.dev/Flag-Maker#webapp",
+            "name": "Flag Maker",
+            "url": "https://fadhil.dev/Flag-Maker",
+            "description": "Flag Maker is an interactive vexillology application created by Fadhil Akbar Cariearsa for designing, customizing, and exporting unique flags.",
+            "applicationCategory": "Vexillology & Graphic Design",
+            "operatingSystem": "All",
+            "browserRequirements": "Requires JavaScript. Requires HTML5.",
+            "author": {
+              "@type": "Person",
+              "name": "Fadhil Akbar Cariearsa",
+              "url": "https://fadhil.dev/"
+            },
+            "screenshot": "https://fadhil.dev/assets/images/flagmaker-banner.jpg"
+          },
+          {
+            "@type": "BreadcrumbList",
+            "@id": "https://fadhil.dev/Flag-Maker#breadcrumb",
+            "itemListElement": [
+              {
+                "@type": "ListItem",
+                "position": 1,
+                "name": "Home",
+                "item": "https://fadhil.dev/"
+              },
+              {
+                "@type": "ListItem",
+                "position": 2,
+                "name": "Portfolios",
+                "item": "https://fadhil.dev/#portfolios-section"
+              },
+              {
+                "@type": "ListItem",
+                "position": 3,
+                "name": "Flag Maker",
+                "item": "https://fadhil.dev/Flag-Maker"
+              }
+            ]
+          }
+        ]
+      }
+    </script>
+    <style>
+      .app-detail-container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 24px 16px 80px;
+      }
+      .app-detail-card {
+        background: #090B12;
+        border: 2px solid #FFE600;
+        box-shadow: 6px 6px 0px #FF003C;
+        border-radius: 8px;
+        overflow: hidden;
+      }
+      .light-theme .app-detail-card {
+        background: #FFFFFF;
+        border-color: #240308;
+        box-shadow: 6px 6px 0px #BC002D;
+      }
+      .app-banner-wrap {
+        width: 100%;
+        max-height: 480px;
+        overflow: hidden;
+        border-bottom: 2px solid #FFE600;
+        background: #000;
+      }
+      .app-banner-wrap img {
+        width: 100%;
+        height: auto;
+        object-fit: cover;
+        display: block;
+      }
+      .app-content-body {
+        padding: 32px;
+      }
+      .breadcrumb-trail {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        font-family: 'Oswald', sans-serif;
+        font-size: 0.95rem;
+        color: #00E5FF;
+        margin-bottom: 20px;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+      }
+      .breadcrumb-trail a {
+        color: #FFE600;
+        text-decoration: none;
+      }
+      .breadcrumb-trail a:hover {
+        text-decoration: underline;
+      }
+      .app-title-row {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: space-between;
+        gap: 16px;
+        margin-bottom: 24px;
+        border-bottom: 1.5px dashed rgba(255, 230, 0, 0.3);
+        padding-bottom: 20px;
+      }
+      .app-main-title {
+        font-family: 'Bangers', cursive;
+        font-size: 2.8rem;
+        letter-spacing: 0.04em;
+        color: #FFE600;
+        margin: 0;
+        line-height: 1.1;
+      }
+      .light-theme .app-main-title {
+        color: #240308;
+      }
+      .app-desc-lead {
+        font-family: 'Noto Sans JP', sans-serif;
+        font-size: 1.15rem;
+        line-height: 1.7;
+        color: #E2E8F0;
+        margin-bottom: 32px;
+      }
+      .light-theme .app-desc-lead {
+        color: #334155;
+      }
+      .feature-list-box {
+        background: rgba(255, 255, 255, 0.03);
+        border: 1.5px solid rgba(0, 229, 255, 0.3);
+        border-radius: 6px;
+        padding: 24px;
+        margin-bottom: 32px;
+      }
+      .light-theme .feature-list-box {
+        background: #F8FAFC;
+        border-color: #CBD5E1;
+      }
+      .feature-list-title {
+        font-family: 'Oswald', sans-serif;
+        font-size: 1.25rem;
+        color: #00E5FF;
+        text-transform: uppercase;
+        margin-bottom: 16px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+      .light-theme .feature-list-title {
+        color: #0284C7;
+      }
+      .feature-items {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        display: grid;
+        gap: 12px;
+      }
+      .feature-items li {
+        font-family: 'Noto Sans JP', sans-serif;
+        font-size: 1rem;
+        line-height: 1.6;
+        color: #CBD5E1;
+        display: flex;
+        align-items: flex-start;
+        gap: 10px;
+      }
+      .light-theme .feature-items li {
+        color: #475569;
+      }
+      .feature-bullet {
+        color: #FF007F;
+        font-weight: bold;
+      }
+      .tech-tags-group {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        margin-bottom: 36px;
+      }
+      .tech-tag-badge {
+        font-family: 'Oswald', sans-serif;
+        font-size: 0.9rem;
+        font-weight: 700;
+        background: #1E0207;
+        color: #FFE600;
+        border: 1.5px solid #FF003C;
+        padding: 6px 14px;
+        border-radius: 4px;
+        text-transform: uppercase;
+      }
+      .light-theme .tech-tag-badge {
+        background: #FFF1F2;
+        color: #BE123C;
+        border-color: #FB7185;
+      }
+      .app-cta-bar {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 16px;
+        align-items: center;
+      }
+      .btn-primary-launch {
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        background: #FFE600;
+        color: #000;
+        font-family: 'Bangers', cursive;
+        font-size: 1.5rem;
+        padding: 12px 28px;
+        border-radius: 4px;
+        text-decoration: none;
+        box-shadow: 4px 4px 0px #FF003C;
+        border: 2px solid #000;
+        transition: transform 0.15s ease, box-shadow 0.15s ease;
+      }
+      .btn-primary-launch:hover {
+        transform: translate(-2px, -2px);
+        box-shadow: 6px 6px 0px #FF003C;
+      }
+      .btn-secondary-back {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        background: transparent;
+        color: #00E5FF;
+        font-family: 'Oswald', sans-serif;
+        font-size: 1.05rem;
+        font-weight: 700;
+        padding: 12px 20px;
+        border-radius: 4px;
+        text-decoration: none;
+        border: 1.5px solid #00E5FF;
+        transition: background 0.15s ease, color 0.15s ease;
+      }
+      .btn-secondary-back:hover {
+        background: rgba(0, 229, 255, 0.15);
+      }
+    </style>
+  </head>
+  <body>
+    <div class="fadhil-shell">
+      <header class="fadhil-header" role="banner">
+        <div class="header-left">
+          <a href="/" id="btn-cyber-logo" class="cyber-logo-badge" title="Fadhil Akbar Cariearsa Official Portfolio" aria-label="Fadhil Dev Home">
+            <div class="logo-box-wrapper" id="logo-fadhil-wrapper">
+              <div class="logo-outline-layer" aria-hidden="true"></div>
+              <div class="logo-inner-plate" id="logo-inner-plate">
+                <div class="cyber-logo-title" id="cyber-logo-heading">
+                  <span class="logo-bracket bracket-open">&lt;</span><span class="logo-part-white">FA</span><span class="logo-part-pink">DH</span><span class="logo-part-sky">IL</span><span class="logo-part-yellow">.DEV</span><span class="logo-bracket bracket-close">&gt;</span>
+                </div>
+              </div>
+              <div class="logo-vertical-blue-bar" aria-hidden="true"></div>
+            </div>
+          </a>
+        </div>
+        <nav class="header-actions" aria-label="Portfolio navigation">
+          <a href="/" class="cyber-action-btn" title="Kembali ke Beranda">
+            <span>🏠</span>
+            <span>HOME</span>
+          </a>
+          <a href="/#portfolios-section" class="cyber-action-btn" title="Lihat daftar aplikasi portofolio">
+            <span>📂</span>
+            <span>ALL APPS</span>
+          </a>
+          <button
+            type="button"
+            class="cyber-theme-btn theme-toggle"
+            aria-label="Switch between Dark Manga and Light Manga theme"
+            aria-pressed="false"
+            title="Ganti Tema (Dark / Light)"
+          >
+            <img src="/assets/images/theme.avif" alt="Theme Toggle" width="24" height="24" />
+          </button>
+        </nav>
+      </header>
+
+      <main class="app-detail-container" role="main">
+        <nav class="breadcrumb-trail" aria-label="Breadcrumb">
+          <a href="/">Home</a>
+          <span>/</span>
+          <a href="/#portfolios-section">Portfolios</a>
+          <span>/</span>
+          <span style="color: #FFE600;">Flag Maker</span>
+        </nav>
+
+        <article class="app-detail-card">
+          <div class="app-banner-wrap">
+            <picture>
+              <source srcset="/assets/images/flagmaker-banner.avif" type="image/avif" />
+              <source srcset="/assets/images/flagmaker-banner.webp" type="image/webp" />
+              <img src="/assets/images/flagmaker-banner.jpg" alt="Flag Maker Showcase Banner" width="1200" height="630" loading="eager" />
+            </picture>
+          </div>
+
+          <div class="app-content-body">
+            <div class="app-title-row">
+              <div>
+                <span class="portfolio-type-pill" style="margin-bottom: 8px; display: inline-block;">STATIC CANVAS ENGINE TOOL</span>
+                <h1 class="app-main-title">Flag Maker</h1>
+              </div>
+              <a href="https://fadhil.dev/Flag-Maker" target="_blank" rel="noopener noreferrer" class="btn-primary-launch" title="Launch Flag Maker Live Application">
+                <span>LAUNCH LIVE APPLICATION</span>
+                <span>➔</span>
+              </a>
+            </div>
+
+            <p class="app-desc-lead">
+              Flag Maker is an interactive vexillology application created by Fadhil Akbar Cariearsa for designing, customizing, and exporting unique flags.
+            </p>
+
+            <div class="feature-list-box">
+              <h2 class="feature-list-title">
+                <span>⚡</span>
+                <span>KEY ARCHITECTURE &amp; CAPABILITIES</span>
+              </h2>
+              <ul class="feature-items">
+                <li><span class="feature-bullet">▸</span><span>Custom vector flag canvas engine with customizable stripes and heraldic symbols</span></li>
+                <li><span class="feature-bullet">▸</span><span>Vexillological proportions, aspect ratio presets, and international standard palettes</span></li>
+                <li><span class="feature-bullet">▸</span><span>Real-time SVG and canvas rendering with instant color adjustments</span></li>
+                <li><span class="feature-bullet">▸</span><span>High-resolution PNG and vector asset export capabilities</span></li>
+              </ul>
+            </div>
+
+            <h2 class="feature-list-title" style="font-size: 1.1rem;">
+              <span>🛠️</span>
+              <span>TECHNOLOGY STACK</span>
+            </h2>
+            <div class="tech-tags-group">
+              <span class="tech-tag-badge">HTML5 Canvas</span>
+              <span class="tech-tag-badge">SVG Engine</span>
+              <span class="tech-tag-badge">JavaScript</span>
+              <span class="tech-tag-badge">CSS3</span>
+              <span class="tech-tag-badge">Design Systems</span>
+            </div>
+
+            <div class="app-cta-bar">
+              <a href="https://fadhil.dev/Flag-Maker" target="_blank" rel="noopener noreferrer" class="btn-primary-launch" title="Launch Flag Maker">
+                <span>OPEN FLAG MAKER</span>
+                <span>↗</span>
+              </a>
+              <a href="/#portfolios-section" class="btn-secondary-back" title="Return to Portfolio Directory">
+                <span>← BACK TO PORTFOLIOS</span>
+              </a>
+            </div>
+          </div>
+        </article>
+      </main>
+
+      <footer class="fadhil-footer" role="contentinfo">
+        <div>
+          © 2026 <strong>FADHIL AKBAR CARIEARSA</strong>. ALL RIGHTS RESERVED. LICENSED UNDER CC BY-NC-ND 4.0.
+        </div>
+        <a href="#" class="footer-top-jump" title="Kembali ke atas">
+          <span>▲ TOP OF PAGE</span>
+        </a>
+      </footer>
+    </div>
+
+    <script type="module" src="/app/main.js"></script>
+  </body>
+</html>

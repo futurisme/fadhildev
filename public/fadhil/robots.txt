@@ -1,0 +1,27 @@
+# robots.txt for https://fadhil.dev
+User-agent: *
+Allow: /$
+Allow: /assets/
+Allow: /app/
+Allow: /favicon.*
+Allow: /fadhil*
+Allow: /apple-touch-icon.png
+Allow: /site.webmanifest
+Allow: /metadata.json
+
+# Exclude in-development routes from search engine indexing
+Disallow: /shareideas
+Disallow: /mindmapmaker
+Disallow: /Flag-Maker
+Disallow: /wikipediaindonesia
+Disallow: /cloud
+Disallow: /en
+Disallow: /id
+Disallow: /jp
+Disallow: /mobile
+Disallow: /api/
+Disallow: /private/
+Disallow: /admin/
+Disallow: /*.json$
+
+Sitemap: https://fadhil.dev/sitemap.xml

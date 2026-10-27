@@ -1,0 +1,22 @@
+# Cloudflare Pages & Web Server redirect rules for fadhil.dev
+# In-development routes redirected to single finished root fadhil.dev
+/shareideas/* / 302
+/shareideas / 302
+/mindmapmaker/* / 302
+/mindmapmaker / 302
+/Flag-Maker/* / 302
+/Flag-Maker / 302
+/wikipediaindonesia/* / 302
+/wikipediaindonesia / 302
+/cloud/* / 302
+/cloud / 302
+/en/* / 302
+/en / 302
+/id/* / 302
+/id / 302
+/jp/* / 302
+/jp / 302
+/mobile/* / 302
+/mobile / 302
+/fadhil/* / 301
+/fadhil / 301
