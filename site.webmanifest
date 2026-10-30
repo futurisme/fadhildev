@@ -1,7 +1,7 @@
 {
   "id": "/",
   "name": "Fadhil Akbar Cariearsa - Developer Portfolio",
-  "short_name": "Fadhil Portfolio",
+  "short_name": "Fadhil Dev",
   "description": "Official portfolio of Fadhil Akbar Cariearsa showcasing software development projects, interactive web applications, technical skills, and core tools.",
   "lang": "en",
   "dir": "ltr",
@@ -24,13 +24,25 @@
   ],
   "icons": [
     {
-      "src": "/fadhil-512x512.png",
-      "sizes": "512x512",
+      "src": "/pwa-192x192.png",
+      "sizes": "192x192",
       "type": "image/png",
-      "purpose": "any maskable"
+      "purpose": "any"
     },
     {
-      "src": "/fadhil.svg",
+      "src": "/pwa-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/pwa-maskable-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    },
+    {
+      "src": "/favicon.svg",
       "sizes": "any",
       "type": "image/svg+xml",
       "purpose": "any"

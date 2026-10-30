@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <defs>
+    <linearGradient id="cyberG" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#00F0FF"/>
+      <stop offset="50%" stop-color="#FFE600"/>
+      <stop offset="100%" stop-color="#FF003C"/>
+    </linearGradient>
+  </defs>
+  <rect width="100" height="100" rx="20" fill="#05060A"/>
+  <polygon points="12,12 88,12 80,88 20,88" fill="#0A0D14" stroke="#00E5FF" stroke-width="3"/>
+  <path d="M28 35 L50 22 L72 35 L72 65 L50 78 L28 65 Z" fill="none" stroke="url(#cyberG)" stroke-width="4"/>
+  <text x="50" y="58" font-family="'Oswald', Impact, sans-serif" font-size="28" font-weight="900" fill="#00E5FF" text-anchor="middle" letter-spacing="1">F</text>
+</svg>

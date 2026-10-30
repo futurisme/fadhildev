@@ -1,28 +1,31 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-        <script>
-      (function() {
-        try {
-          var ua = navigator.userAgent || "";
-          if (/bot|crawl|slurp|spider|mediapartners|facebook|twitter|bing|google|yandex|duckduckgo/i.test(ua)) return;
-          var params = new URLSearchParams(window.location.search);
-          if (params.get("view") === "desktop" || sessionStorage.getItem("cariearsa_fadhil_pref") === "desktop") return;
-          if (params.get("view") === "mobile") {
-            sessionStorage.setItem("cariearsa_fadhil_pref", "mobile");
-            window.location.replace("/mobile/" + window.location.search + window.location.hash);
-            return;
-          }
-          var uaData = navigator.userAgentData;
-          var isMobileUA = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini|Mobile|Tablet/i.test(ua);
-          var isSmallScreen = window.innerWidth <= 1024 && ("ontouchstart" in window || (navigator.maxTouchPoints && navigator.maxTouchPoints > 0));
-          if ((uaData && uaData.mobile === true) || isMobileUA || isSmallScreen) {
-            window.location.replace("/mobile/" + window.location.search + window.location.hash);
-          }
-        } catch(e) {}
-      })();
-    </script>
-        <script>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <title>Fadhil Akbar Cariearsa - Developer Portfolio</title>
+    <meta
+      name="description"
+      content="Official portfolio of Fadhil Akbar Cariearsa showcasing software development projects, interactive web applications, technical skills, and core tools."
+    />
+    <meta
+      name="keywords"
+      content="Fadhil Akbar Cariearsa, developer portfolio, software engineering, web applications, programming skills, developer tools, fadhil.dev"
+    />
+    <meta name="author" content="Fadhil Akbar Cariearsa" />
+    <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
+    <meta name="theme-color" content="#05060A" />
+    <meta name="color-scheme" content="dark light" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-title" content="Fadhil Dev" />
+
+    <!-- Canonical: strictly single authoritative root -->
+    <link rel="canonical" href="https://fadhil.dev/" />
+
+    <!-- Inline theme setup to prevent FOUC / CLS -->
+    <script>
       (function() {
         try {
           var t = localStorage.getItem("portfolio-theme");
@@ -35,32 +38,6 @@
         } catch(e) {}
       })();
     </script>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-    <title>Fadhil Akbar Cariearsa - Developer Portfolio</title>
-    <meta
-      name="description"
-      content="Official portfolio of Fadhil Akbar Cariearsa showcasing software development projects, interactive web applications, technical skills, and core tools."
-    />
-    <meta
-      name="keywords"
-      content="Fadhil Akbar Cariearsa, developer portfolio, software engineering, web applications, programming skills, developer tools, fadhil.dev, cariearsa.com"
-    />
-    <meta name="author" content="Fadhil Akbar Cariearsa" />
-    <meta name="creator" content="Fadhil Akbar Cariearsa" />
-    <meta name="publisher" content="Fadhil Akbar Cariearsa" />
-    <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
-    <meta name="googlebot" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
-    <meta name="bingbot" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
-    <meta name="theme-color" content="#05060A" />
-    <meta name="color-scheme" content="dark light" />
-
-    <link rel="canonical" href="https://fadhil.dev/" />
-        <link rel="alternate" media="only screen and (max-width: 1024px)" href="https://fadhil.dev/mobile/" />
-    <link rel="alternate" hreflang="x-default" href="https://fadhil.dev/" />
-    <link rel="alternate" hreflang="en" href="https://fadhil.dev/en/" />
-    <link rel="alternate" hreflang="id" href="https://fadhil.dev/id/" />
-    <link rel="alternate" hreflang="ja" href="https://fadhil.dev/jp/" />
 
     <meta property="og:site_name" content="Fadhil Akbar Cariearsa - Developer Portfolio" />
     <meta property="og:type" content="website" />
@@ -150,9 +127,9 @@
       }
     </script>
 
-    <link rel="icon" type="image/svg+xml" href="/fadhil/favicon.svg" />
-    <link rel="apple-touch-icon" href="/fadhil/apple-touch-icon.png" />
-    <link rel="manifest" href="/fadhil/site.webmanifest" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
 
     <link rel="dns-prefetch" href="https://fonts.googleapis.com" />
     <link rel="dns-prefetch" href="https://fonts.gstatic.com" />
@@ -164,12 +141,12 @@
       rel="stylesheet"
     />
 
-    <link rel="preload" as="image" href="/fadhil/assets/images/portfolio-banner.avif" type="image/avif" fetchpriority="high" />
-    <link rel="preload" as="image" href="/fadhil/assets/images/shareideas-banner.avif" type="image/avif" fetchpriority="low" />
-    <link rel="preload" as="image" href="/fadhil/assets/images/mindmapmaker-banner.avif" type="image/avif" fetchpriority="low" />
-    <link rel="preload" as="image" href="/fadhil/assets/images/theme.avif" type="image/avif" fetchpriority="high" />
+    <link rel="preload" as="image" href="/assets/images/portfolio-banner.avif" type="image/avif" fetchpriority="high" />
+    <link rel="preload" as="image" href="/assets/images/shareideas-banner.avif" type="image/avif" fetchpriority="low" />
+    <link rel="preload" as="image" href="/assets/images/mindmapmaker-banner.avif" type="image/avif" fetchpriority="low" />
+    <link rel="preload" as="image" href="/assets/images/theme.avif" type="image/avif" fetchpriority="high" />
 
-    <link rel="stylesheet" href="/fadhil/app/styles.css?v=20260913_socials_v3" />
+    <link rel="stylesheet" href="/app/styles.css?v=20260913_socials_v3" />
 
     <style id="fadhil-theme-variants">
 .core-lang-item.core-lang-variant-1,
@@ -877,10 +854,10 @@
 
         <nav class="header-actions" aria-label="Portfolio navigation">
           
-          <a href="/cloud/" class="cyber-action-btn btn-cloud-db" id="btn-cloud-database" title="Buka Cloud Database">
+          <button type="button" class="cyber-action-btn btn-cloud-db is-in-dev" id="btn-cloud-database" data-project-name="Cloud Database" title="Cloud Database — Dalam Masa Pengembangan">
             <span>☁</span>
             <span>CLOUD DATABASE</span>
-          </a>
+          </button>
 
           <a href="mailto:fadhil@fadhil.dev" class="email-cyber-btn" id="btn-email-fadhil" title="Kirim email ke fadhil@fadhil.dev">
             <span>
@@ -895,12 +872,23 @@
 
           <button
             type="button"
+            id="btn-pwa-install"
+            class="cyber-action-btn cyber-install-btn hidden"
+            aria-label="Install Fadhil Dev as Progressive Web App"
+            title="Install App (PWA)"
+          >
+            <span>📥</span>
+            <span>INSTALL APP</span>
+          </button>
+
+          <button
+            type="button"
             class="cyber-theme-btn theme-toggle"
             aria-label="Switch between Dark Manga and Light Manga theme"
             aria-pressed="false"
             title="Ganti Tema (Dark / Light)"
           >
-            <img src="/fadhil/assets/images/theme.avif" alt="Theme" width="24" height="24" />
+            <img src="/assets/images/theme.avif" alt="Theme" width="24" height="24" />
           </button>
         </nav>
       </header>
@@ -928,10 +916,10 @@
                 </div>
 
                 <picture class="hero-picture-layer" id="hero-banner-picture">
-                  <source srcset="/fadhil/assets/images/portfolio-banner.avif" type="image/avif" />
-                  <source srcset="/fadhil/assets/images/portfolio-banner.webp" type="image/webp" />
+                  <source srcset="/assets/images/portfolio-banner.avif" type="image/avif" />
+                  <source srcset="/assets/images/portfolio-banner.webp" type="image/webp" />
                   <img
-                    src="/fadhil/assets/images/portfolio-banner.jpg"
+                    src="/assets/images/portfolio-banner.jpg"
                     alt="Fadhil Akbar Portfolio Banner"
                     width="1600"
                     height="900"
@@ -1072,43 +1060,43 @@
                   
                   <li class="core-lang-item core-lang-variant-1" title="HTML5" tabindex="0" role="button" aria-label="HTML5 Iconbox">
                     <picture>
-                      <source srcset="/fadhil/assets/images/platform-icons/html-224.avif" type="image/avif" />
-                      <img src="/fadhil/assets/images/platform-icons/html-224.webp" alt="HTML5" width="48" height="48" loading="eager" />
+                      <source srcset="/assets/images/platform-icons/html-224.avif" type="image/avif" />
+                      <img src="/assets/images/platform-icons/html-224.webp" alt="HTML5" width="48" height="48" loading="eager" />
                     </picture>
                   </li>
                   
                   <li class="core-lang-item core-lang-variant-2" title="JavaScript" tabindex="0" role="button" aria-label="JavaScript Iconbox">
                     <picture>
-                      <source srcset="/fadhil/assets/images/platform-icons/javascript-224.avif" type="image/avif" />
-                      <img src="/fadhil/assets/images/platform-icons/javascript-224.webp" alt="JavaScript" width="48" height="48" loading="eager" />
+                      <source srcset="/assets/images/platform-icons/javascript-224.avif" type="image/avif" />
+                      <img src="/assets/images/platform-icons/javascript-224.webp" alt="JavaScript" width="48" height="48" loading="eager" />
                     </picture>
                   </li>
                   
                   <li class="core-lang-item core-lang-variant-3" title="CSS3" tabindex="0" role="button" aria-label="CSS3 Iconbox">
                     <picture>
-                      <source srcset="/fadhil/assets/images/platform-icons/css-224.avif" type="image/avif" />
-                      <img src="/fadhil/assets/images/platform-icons/css-224.webp" alt="CSS3" width="48" height="48" loading="eager" />
+                      <source srcset="/assets/images/platform-icons/css-224.avif" type="image/avif" />
+                      <img src="/assets/images/platform-icons/css-224.webp" alt="CSS3" width="48" height="48" loading="eager" />
                     </picture>
                   </li>
                   
                   <li class="core-lang-item core-lang-variant-1" title="TypeScript" tabindex="0" role="button" aria-label="TypeScript Iconbox">
                     <picture>
-                      <source srcset="/fadhil/assets/images/platform-icons/typescript-224.avif" type="image/avif" />
-                      <img src="/fadhil/assets/images/platform-icons/typescript-224.webp" alt="TypeScript" width="48" height="48" loading="eager" />
+                      <source srcset="/assets/images/platform-icons/typescript-224.avif" type="image/avif" />
+                      <img src="/assets/images/platform-icons/typescript-224.webp" alt="TypeScript" width="48" height="48" loading="eager" />
                     </picture>
                   </li>
                   
                   <li class="core-lang-item core-lang-variant-2" title="Luau" tabindex="0" role="button" aria-label="Luau Iconbox">
                     <picture>
-                      <source srcset="/fadhil/assets/images/platform-icons/luau-224.avif" type="image/avif" />
-                      <img src="/fadhil/assets/images/platform-icons/luau-224.webp" alt="Luau" width="48" height="48" loading="eager" />
+                      <source srcset="/assets/images/platform-icons/luau-224.avif" type="image/avif" />
+                      <img src="/assets/images/platform-icons/luau-224.webp" alt="Luau" width="48" height="48" loading="eager" />
                     </picture>
                   </li>
                   
                   <li class="core-lang-item core-lang-variant-3" title="Python" tabindex="0" role="button" aria-label="Python Iconbox">
                     <picture>
-                      <source srcset="/fadhil/assets/images/platform-icons/python-224.avif" type="image/avif" />
-                      <img src="/fadhil/assets/images/platform-icons/python-224.webp" alt="Python" width="48" height="48" loading="eager" />
+                      <source srcset="/assets/images/platform-icons/python-224.avif" type="image/avif" />
+                      <img src="/assets/images/platform-icons/python-224.webp" alt="Python" width="48" height="48" loading="eager" />
                     </picture>
                   </li>
                 </ul>
@@ -1131,9 +1119,9 @@
                   <li>
                     <a href="https://myanimelist.net/profile/fadhilakbar" target="_blank" rel="noopener noreferrer" class="social-slot-link social-variant-1" title="MyAnimeList">
                       <picture>
-                        <source srcset="/fadhil/assets/images/social/myanimelist.avif" type="image/avif" />
-                        <source srcset="/fadhil/assets/images/social/myanimelist.webp" type="image/webp" />
-                        <img src="/fadhil/assets/images/social/myanimelist.jpg" alt="MyAnimeList" width="36" height="36" loading="lazy" />
+                        <source srcset="/assets/images/social/myanimelist.avif" type="image/avif" />
+                        <source srcset="/assets/images/social/myanimelist.webp" type="image/webp" />
+                        <img src="/assets/images/social/myanimelist.jpg" alt="MyAnimeList" width="36" height="36" loading="lazy" />
                       </picture>
                     </a>
                   </li>
@@ -1141,9 +1129,9 @@
                   <li>
                     <a href="https://discord.com/users/1323914885238624298" target="_blank" rel="noopener noreferrer" class="social-slot-link social-variant-2" title="Discord">
                       <picture>
-                        <source srcset="/fadhil/assets/images/social/discord.avif" type="image/avif" />
-                        <source srcset="/fadhil/assets/images/social/discord.webp" type="image/webp" />
-                        <img src="/fadhil/assets/images/social/discord.jpg" alt="Discord" width="36" height="36" loading="lazy" />
+                        <source srcset="/assets/images/social/discord.avif" type="image/avif" />
+                        <source srcset="/assets/images/social/discord.webp" type="image/webp" />
+                        <img src="/assets/images/social/discord.jpg" alt="Discord" width="36" height="36" loading="lazy" />
                       </picture>
                     </a>
                   </li>
@@ -1151,9 +1139,9 @@
                   <li>
                     <a href="https://www.instagram.com/fadhil.akbar.cariearsa?igsh=MWxraXQ2cjh0b3JyZA==" target="_blank" rel="noopener noreferrer" class="social-slot-link social-variant-3" title="Instagram">
                       <picture>
-                        <source srcset="/fadhil/assets/images/social/instagram.avif" type="image/avif" />
-                        <source srcset="/fadhil/assets/images/social/instagram.webp" type="image/webp" />
-                        <img src="/fadhil/assets/images/social/instagram.jpg" alt="Instagram" width="36" height="36" loading="lazy" />
+                        <source srcset="/assets/images/social/instagram.avif" type="image/avif" />
+                        <source srcset="/assets/images/social/instagram.webp" type="image/webp" />
+                        <img src="/assets/images/social/instagram.jpg" alt="Instagram" width="36" height="36" loading="lazy" />
                       </picture>
                     </a>
                   </li>
@@ -1161,9 +1149,9 @@
                   <li>
                     <a href="https://www.duolingo.com/profile/MTsN3Malang" target="_blank" rel="noopener noreferrer" class="social-slot-link social-variant-1" title="Duolingo">
                       <picture>
-                        <source srcset="/fadhil/assets/images/social/duolingo.avif" type="image/avif" />
-                        <source srcset="/fadhil/assets/images/social/duolingo.webp" type="image/webp" />
-                        <img src="/fadhil/assets/images/social/duolingo.jpg" alt="Duolingo" width="36" height="36" loading="lazy" />
+                        <source srcset="/assets/images/social/duolingo.avif" type="image/avif" />
+                        <source srcset="/assets/images/social/duolingo.webp" type="image/webp" />
+                        <img src="/assets/images/social/duolingo.jpg" alt="Duolingo" width="36" height="36" loading="lazy" />
                       </picture>
                     </a>
                   </li>
@@ -1171,9 +1159,9 @@
                   <li>
                     <a href="https://leetcode.com/u/FadhilAkbarCariearsa" target="_blank" rel="noopener noreferrer" class="social-slot-link social-variant-2" title="LeetCode">
                       <picture>
-                        <source srcset="/fadhil/assets/images/social/leetcode.avif" type="image/avif" />
-                        <source srcset="/fadhil/assets/images/social/leetcode.webp" type="image/webp" />
-                        <img src="/fadhil/assets/images/social/leetcode.jpg" alt="LeetCode" width="36" height="36" loading="lazy" />
+                        <source srcset="/assets/images/social/leetcode.avif" type="image/avif" />
+                        <source srcset="/assets/images/social/leetcode.webp" type="image/webp" />
+                        <img src="/assets/images/social/leetcode.jpg" alt="LeetCode" width="36" height="36" loading="lazy" />
                       </picture>
                     </a>
                   </li>
@@ -1181,9 +1169,9 @@
                   <li>
                     <a href="https://monkeytype.com/profile/fadhilakbar" target="_blank" rel="noopener noreferrer" class="social-slot-link social-variant-3" title="Monkeytype">
                       <picture>
-                        <source srcset="/fadhil/assets/images/social/monkeytype.avif" type="image/avif" />
-                        <source srcset="/fadhil/assets/images/social/monkeytype.webp" type="image/webp" />
-                        <img src="/fadhil/assets/images/social/monkeytype.jpg" alt="Monkeytype" width="36" height="36" loading="lazy" />
+                        <source srcset="/assets/images/social/monkeytype.avif" type="image/avif" />
+                        <source srcset="/assets/images/social/monkeytype.webp" type="image/webp" />
+                        <img src="/assets/images/social/monkeytype.jpg" alt="Monkeytype" width="36" height="36" loading="lazy" />
                       </picture>
                     </a>
                   </li>
@@ -1191,9 +1179,9 @@
                   <li>
                     <a href="https://github.com/fadhilakbarcariearsaindonesia" target="_blank" rel="noopener noreferrer" class="social-slot-link social-variant-1" title="GitHub">
                       <picture>
-                        <source srcset="/fadhil/assets/images/social/github.avif" type="image/avif" />
-                        <source srcset="/fadhil/assets/images/social/github.webp" type="image/webp" />
-                        <img src="/fadhil/assets/images/social/github.jpg" alt="GitHub" width="36" height="36" loading="lazy" />
+                        <source srcset="/assets/images/social/github.avif" type="image/avif" />
+                        <source srcset="/assets/images/social/github.webp" type="image/webp" />
+                        <img src="/assets/images/social/github.jpg" alt="GitHub" width="36" height="36" loading="lazy" />
                       </picture>
                     </a>
                   </li>
@@ -1201,9 +1189,9 @@
                   <li>
                     <a href="https://tryhackme.com/p/fadhilakbar" target="_blank" rel="noopener noreferrer" class="social-slot-link social-variant-2" title="TryHackMe">
                       <picture>
-                        <source srcset="/fadhil/assets/images/social/tryhackme.avif" type="image/avif" />
-                        <source srcset="/fadhil/assets/images/social/tryhackme.webp" type="image/webp" />
-                        <img src="/fadhil/assets/images/social/tryhackme.jpg" alt="TryHackMe" width="36" height="36" loading="lazy" />
+                        <source srcset="/assets/images/social/tryhackme.avif" type="image/avif" />
+                        <source srcset="/assets/images/social/tryhackme.webp" type="image/webp" />
+                        <img src="/assets/images/social/tryhackme.jpg" alt="TryHackMe" width="36" height="36" loading="lazy" />
                       </picture>
                     </a>
                   </li>
@@ -1211,9 +1199,9 @@
                   <li>
                     <a href="https://open.spotify.com/user/31atjyxnu3ck3yxvr3vsk7igsoqi" target="_blank" rel="noopener noreferrer" class="social-slot-link social-variant-3" title="Spotify">
                       <picture>
-                        <source srcset="/fadhil/assets/images/social/spotify.avif" type="image/avif" />
-                        <source srcset="/fadhil/assets/images/social/spotify.webp" type="image/webp" />
-                        <img src="/fadhil/assets/images/social/spotify.jpg" alt="Spotify" width="36" height="36" loading="lazy" />
+                        <source srcset="/assets/images/social/spotify.avif" type="image/avif" />
+                        <source srcset="/assets/images/social/spotify.webp" type="image/webp" />
+                        <img src="/assets/images/social/spotify.jpg" alt="Spotify" width="36" height="36" loading="lazy" />
                       </picture>
                     </a>
                   </li>
@@ -1221,9 +1209,9 @@
                   <li>
                     <a href="https://www.imdb.com/user/p.bl7qolkdgr7bhx2kf7hxuhokau?ref_=hm_nv_profile" target="_blank" rel="noopener noreferrer" class="social-slot-link social-variant-1" title="IMDb">
                       <picture>
-                        <source srcset="/fadhil/assets/images/social/imdb.avif" type="image/avif" />
-                        <source srcset="/fadhil/assets/images/social/imdb.webp" type="image/webp" />
-                        <img src="/fadhil/assets/images/social/imdb.jpg" alt="IMDb" width="36" height="36" loading="lazy" />
+                        <source srcset="/assets/images/social/imdb.avif" type="image/avif" />
+                        <source srcset="/assets/images/social/imdb.webp" type="image/webp" />
+                        <img src="/assets/images/social/imdb.jpg" alt="IMDb" width="36" height="36" loading="lazy" />
                       </picture>
                     </a>
                   </li>
@@ -1231,9 +1219,9 @@
                   <li>
                     <a href="https://id.wikipedia.org/wiki/Pengguna:Fadhil_Akbar_Cariearsa" target="_blank" rel="noopener noreferrer" class="social-slot-link social-variant-2" title="Wikipedia Profile">
                       <picture>
-                        <source srcset="/fadhil/assets/images/social/wikipedia.avif" type="image/avif" />
-                        <source srcset="/fadhil/assets/images/social/wikipedia.webp" type="image/webp" />
-                        <img src="/fadhil/assets/images/social/wikipedia.jpg" alt="Wikipedia" width="36" height="36" loading="lazy" />
+                        <source srcset="/assets/images/social/wikipedia.avif" type="image/avif" />
+                        <source srcset="/assets/images/social/wikipedia.webp" type="image/webp" />
+                        <img src="/assets/images/social/wikipedia.jpg" alt="Wikipedia" width="36" height="36" loading="lazy" />
                       </picture>
                     </a>
                   </li>
@@ -1241,9 +1229,9 @@
                   <li>
                     <a href="https://www.linkedin.com/in/cariearsa/" target="_blank" rel="noopener noreferrer" class="social-slot-link social-variant-3" title="LinkedIn">
                       <picture>
-                        <source srcset="/fadhil/assets/images/social/linkedin.avif" type="image/avif" />
-                        <source srcset="/fadhil/assets/images/social/linkedin.webp" type="image/webp" />
-                        <img src="/fadhil/assets/images/social/linkedin.jpg" alt="LinkedIn" width="36" height="36" loading="lazy" />
+                        <source srcset="/assets/images/social/linkedin.avif" type="image/avif" />
+                        <source srcset="/assets/images/social/linkedin.webp" type="image/webp" />
+                        <img src="/assets/images/social/linkedin.jpg" alt="LinkedIn" width="36" height="36" loading="lazy" />
                       </picture>
                     </a>
                   </li>
@@ -1251,9 +1239,9 @@
                   <li>
                     <a href="https://www.roblox.com/users/profile?username=therealjeff_roblox" target="_blank" rel="noopener noreferrer" class="social-slot-link social-variant-1" title="Roblox">
                       <picture>
-                        <source srcset="/fadhil/assets/images/social/roblox.avif" type="image/avif" />
-                        <source srcset="/fadhil/assets/images/social/roblox.webp" type="image/webp" />
-                        <img src="/fadhil/assets/images/social/roblox.jpg" alt="Roblox" width="36" height="36" loading="lazy" />
+                        <source srcset="/assets/images/social/roblox.avif" type="image/avif" />
+                        <source srcset="/assets/images/social/roblox.webp" type="image/webp" />
+                        <img src="/assets/images/social/roblox.jpg" alt="Roblox" width="36" height="36" loading="lazy" />
                       </picture>
                     </a>
                   </li>
@@ -1261,9 +1249,9 @@
                   <li>
                     <a href="https://app.daily.dev/fadhilakbar" target="_blank" rel="noopener noreferrer" class="social-slot-link social-variant-2" title="daily.dev">
                       <picture>
-                        <source srcset="/fadhil/assets/images/social/dailydev.avif" type="image/avif" />
-                        <source srcset="/fadhil/assets/images/social/dailydev.webp" type="image/webp" />
-                        <img src="/fadhil/assets/images/social/dailydev.jpg" alt="daily.dev" width="36" height="36" loading="lazy" />
+                        <source srcset="/assets/images/social/dailydev.avif" type="image/avif" />
+                        <source srcset="/assets/images/social/dailydev.webp" type="image/webp" />
+                        <img src="/assets/images/social/dailydev.jpg" alt="daily.dev" width="36" height="36" loading="lazy" />
                       </picture>
                     </a>
                   </li>
@@ -1399,16 +1387,16 @@
                 </div>
                 <div class="portfolio-figure-wrap">
                   <picture>
-                    <source srcset="/fadhil/assets/images/shareideas-banner.avif" type="image/avif" />
-                    <source srcset="/fadhil/assets/images/shareideas-banner.webp" type="image/webp" />
-                    <img src="/fadhil/assets/images/shareideas-banner.jpg" alt="Share Ideas Banner" width="480" height="270" loading="lazy" />
+                    <source srcset="/assets/images/shareideas-banner.avif" type="image/avif" />
+                    <source srcset="/assets/images/shareideas-banner.webp" type="image/webp" />
+                    <img src="/assets/images/shareideas-banner.jpg" alt="Share Ideas Banner" width="480" height="270" loading="lazy" />
                   </picture>
                 </div>
                 <div class="portfolio-meta-body">
                   <h3 class="portfolio-app-title">Share Ideas</h3>
-                  <a href="https://fadhil.dev/shareideas" target="_blank" rel="noopener noreferrer" class="portfolio-launch-btn" title="Buka Share Ideas">
+                  <button type="button" class="portfolio-launch-btn is-in-dev" data-project-name="Share Ideas" title="Share Ideas — Dalam Masa Pengembangan" aria-label="Share Ideas (Dalam Pengembangan)">
                     <span>LAUNCH APP</span>
-                  </a>
+                  </button>
                 </div>
               </div>
             </article>
@@ -1421,16 +1409,16 @@
                 </div>
                 <div class="portfolio-figure-wrap">
                   <picture>
-                    <source srcset="/fadhil/assets/images/mindmapmaker-banner.avif" type="image/avif" />
-                    <source srcset="/fadhil/assets/images/mindmapmaker-banner.webp" type="image/webp" />
-                    <img src="/fadhil/assets/images/mindmapmaker-banner.jpg" alt="Mind Map Maker Banner" width="480" height="270" loading="lazy" />
+                    <source srcset="/assets/images/mindmapmaker-banner.avif" type="image/avif" />
+                    <source srcset="/assets/images/mindmapmaker-banner.webp" type="image/webp" />
+                    <img src="/assets/images/mindmapmaker-banner.jpg" alt="Mind Map Maker Banner" width="480" height="270" loading="lazy" />
                   </picture>
                 </div>
                 <div class="portfolio-meta-body">
                   <h3 class="portfolio-app-title">Mind Map Maker</h3>
-                  <a href="https://fadhil.dev/mindmapmaker" target="_blank" rel="noopener noreferrer" class="portfolio-launch-btn" title="Buka Mind Map Maker">
+                  <button type="button" class="portfolio-launch-btn is-in-dev" data-project-name="Mind Map Maker" title="Mind Map Maker — Dalam Masa Pengembangan" aria-label="Mind Map Maker (Dalam Pengembangan)">
                     <span>LAUNCH APP</span>
-                  </a>
+                  </button>
                 </div>
               </div>
             </article>
@@ -1443,16 +1431,16 @@
                 </div>
                 <div class="portfolio-figure-wrap">
                   <picture>
-                    <source srcset="/fadhil/assets/images/flagmaker-banner.avif" type="image/avif" />
-                    <source srcset="/fadhil/assets/images/flagmaker-banner.webp" type="image/webp" />
-                    <img src="/fadhil/assets/images/flagmaker-banner.jpg" alt="Flag Maker Banner" width="480" height="270" loading="lazy" />
+                    <source srcset="/assets/images/flagmaker-banner.avif" type="image/avif" />
+                    <source srcset="/assets/images/flagmaker-banner.webp" type="image/webp" />
+                    <img src="/assets/images/flagmaker-banner.jpg" alt="Flag Maker Banner" width="480" height="270" loading="lazy" />
                   </picture>
                 </div>
                 <div class="portfolio-meta-body">
                   <h3 class="portfolio-app-title">Flag Maker</h3>
-                  <a href="https://fadhil.dev/Flag-Maker" target="_blank" rel="noopener noreferrer" class="portfolio-launch-btn" title="Buka Flag Maker">
+                  <button type="button" class="portfolio-launch-btn is-in-dev" data-project-name="Flag Maker" title="Flag Maker — Dalam Masa Pengembangan" aria-label="Flag Maker (Dalam Pengembangan)">
                     <span>LAUNCH APP</span>
-                  </a>
+                  </button>
                 </div>
               </div>
             </article>
@@ -1465,16 +1453,16 @@
                 </div>
                 <div class="portfolio-figure-wrap">
                   <picture>
-                    <source srcset="/fadhil/assets/images/wikipediaindonesia-banner.avif" type="image/avif" />
-                    <source srcset="/fadhil/assets/images/wikipediaindonesia-banner.webp" type="image/webp" />
-                    <img src="/fadhil/assets/images/wikipediaindonesia-banner.jpg" alt="Wikipedia Custom Profile Banner" width="480" height="270" loading="lazy" />
+                    <source srcset="/assets/images/wikipediaindonesia-banner.avif" type="image/avif" />
+                    <source srcset="/assets/images/wikipediaindonesia-banner.webp" type="image/webp" />
+                    <img src="/assets/images/wikipediaindonesia-banner.jpg" alt="Wikipedia Custom Profile Banner" width="480" height="270" loading="lazy" />
                   </picture>
                 </div>
                 <div class="portfolio-meta-body">
                   <h3 class="portfolio-app-title">Wikipedia Custom Profile</h3>
-                  <a href="https://fadhil.dev/wikipediaindonesia" target="_blank" rel="noopener noreferrer" class="portfolio-launch-btn" title="Buka Wikipedia Custom Profile">
+                  <button type="button" class="portfolio-launch-btn is-in-dev" data-project-name="Wikipedia Custom Profile" title="Wikipedia Custom Profile — Dalam Masa Pengembangan" aria-label="Wikipedia Custom Profile (Dalam Pengembangan)">
                     <span>LAUNCH APP</span>
-                  </a>
+                  </button>
                 </div>
               </div>
             </article>
@@ -1490,6 +1478,26 @@
           <span>▲ TOP OF PAGE</span>
         </a>
       </footer>
+    </div>
+
+    <!-- PWA Offline Status Toast -->
+    <div id="pwa-offline-toast" class="pwa-offline-banner hidden" role="status" aria-live="polite">
+      <span class="offline-pulse-dot"></span>
+      <span>Offline Mode — Viewing cached portfolio archive.</span>
+    </div>
+
+    <!-- PWA iOS Safari Install Guidance Modal -->
+    <div id="pwa-ios-modal" class="pwa-modal-overlay hidden" role="dialog" aria-modal="true" aria-labelledby="pwa-ios-title">
+      <div class="pwa-modal-card">
+        <h3 id="pwa-ios-title" class="pwa-modal-title">Install Fadhil Dev on iOS</h3>
+        <p class="pwa-modal-desc">
+          1. Tap the <strong>Share</strong> button <span class="ios-icon">⎋</span> in the Safari toolbar.<br />
+          2. Scroll down and tap <strong>Add to Home Screen</strong> <span class="ios-icon">⊞</span>.
+        </p>
+        <button type="button" id="pwa-ios-close" class="portfolio-launch-btn">
+          <span>GOT IT</span>
+        </button>
+      </div>
     </div>
 
     <script src="https://www.youtube.com/iframe_api" async defer></script>

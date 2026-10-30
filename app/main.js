@@ -3,6 +3,7 @@ import { initThemeSwitcher } from './theme.js';
 import { initHeroYouTube } from './youtube.js';
 import { initLanguageSwitcher } from './lang.js';
 import { initInteractiveUI } from './interactive.js';
+import { initPWA } from './pwa.js';
 
 (() => {
   // 1. Initialize cyber audio triggers
@@ -19,4 +20,7 @@ import { initInteractiveUI } from './interactive.js';
 
   // 5. Initialize interactive UI effects and key shortcuts
   initInteractiveUI(toggleTheme);
+
+  // 6. Initialize Progressive Web App (PWA) lifecycle & install prompt
+  initPWA();
 })();

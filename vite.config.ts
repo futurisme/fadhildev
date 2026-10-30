@@ -34,7 +34,49 @@ function fadhilRouterPlugin(): Plugin {
         const pathname = urlObj.pathname;
         const search = urlObj.search;
 
-        // In-development & legacy paths redirected to single completed root (fadhil.dev/)
+        // Never intercept Vite internal modules or transforms
+        if (pathname.startsWith('/@') || pathname.startsWith('/node_modules')) {
+          return next();
+        }
+
+        // 1. Static asset handling: check FIRST with automatic /fadhil/ strip
+        const rawCleanPath = pathname.replace(/^\//, '');
+        const cleanPath = rawCleanPath.startsWith('fadhil/')
+          ? rawCleanPath.slice('fadhil/'.length)
+          : rawCleanPath;
+        const ext = path.extname(cleanPath).toLowerCase();
+
+        if (ext && MIME_TYPES[ext]) {
+          const candidatePaths = [
+            path.resolve(process.cwd(), cleanPath),
+            path.resolve(process.cwd(), rawCleanPath),
+            path.resolve(process.cwd(), 'public', cleanPath),
+            path.resolve(process.cwd(), 'public', rawCleanPath),
+            path.resolve(process.cwd(), 'assets', cleanPath),
+            path.resolve(process.cwd(), 'app', cleanPath),
+            path.resolve(process.cwd(), 'assets/images', cleanPath),
+            path.resolve(process.cwd(), 'assets/images/social', path.basename(cleanPath)),
+            path.resolve(process.cwd(), 'assets/images/platform-icons', path.basename(cleanPath)),
+          ];
+
+          for (const cand of candidatePaths) {
+            if (fs.existsSync(cand)) {
+              try {
+                const stat = fs.statSync(cand);
+                if (stat.isFile()) {
+                  res.setHeader('Content-Type', MIME_TYPES[ext]);
+                  res.setHeader('Content-Length', stat.size);
+                  res.setHeader('Cache-Control', 'public, max-age=31536000, immutable');
+                  res.setHeader('X-Content-Type-Options', 'nosniff');
+                  fs.createReadStream(cand).pipe(res);
+                  return;
+                }
+              } catch (_) {}
+            }
+          }
+        }
+
+        // 2. In-development & legacy page routes redirected to authoritative root
         const inDevRoutes = [
           '/shareideas', '/shareideas/',
           '/mindmapmaker', '/mindmapmaker/',
@@ -46,37 +88,14 @@ function fadhilRouterPlugin(): Plugin {
           '/jp', '/jp/',
           '/mobile', '/mobile/',
           '/fadhil', '/fadhil/',
+          '/fadhil/index.html',
           '/fadhil/mobile', '/fadhil/mobile/'
         ];
 
-        if (inDevRoutes.includes(pathname) || pathname.startsWith('/fadhil/')) {
+        if (inDevRoutes.includes(pathname) || (!ext && pathname.startsWith('/fadhil/'))) {
           res.writeHead(302, { Location: `/${search}` });
           res.end();
           return;
-        }
-
-        const cleanPath = pathname.replace(/^\//, '');
-        const ext = path.extname(cleanPath).toLowerCase();
-        if (ext && MIME_TYPES[ext]) {
-          const candidatePaths = [
-            path.resolve(process.cwd(), cleanPath),
-            path.resolve(process.cwd(), 'public', cleanPath),
-          ];
-
-          for (const cand of candidatePaths) {
-            if (fs.existsSync(cand)) {
-              try {
-                const stat = fs.statSync(cand);
-                if (stat.isFile()) {
-                  res.setHeader('Content-Type', MIME_TYPES[ext]);
-                  res.setHeader('Content-Length', stat.size);
-                  res.setHeader('Cache-Control', 'no-cache');
-                  fs.createReadStream(cand).pipe(res);
-                  return;
-                }
-              } catch (_) {}
-            }
-          }
         }
 
         next();
@@ -91,8 +110,14 @@ function fadhilRouterPlugin(): Plugin {
           'fadhil.svg',
           'favicon.ico',
           'favicon.svg',
+          'favicon.png',
           'site.webmanifest',
+          'sw.js',
+          'pwa-192x192.png',
+          'pwa-512x512.png',
+          'pwa-maskable-512x512.png',
           '_redirects',
+          '_headers',
           'robots.txt',
           'sitemap.xml',
           '404.html',
@@ -106,12 +131,31 @@ function fadhilRouterPlugin(): Plugin {
           }
         }
 
+        // Copy directories
         const copyDirs = ['app', 'assets'];
         for (const dir of copyDirs) {
           const srcDir = path.resolve(process.cwd(), dir);
           const destDir = path.resolve(distDir, dir);
           if (fs.existsSync(srcDir)) {
             fs.cpSync(srcDir, destDir, { recursive: true, force: true });
+          }
+        }
+
+        // Mirror backward-compatible /fadhil/ directories in dist
+        const fadhilDist = path.resolve(distDir, 'fadhil');
+        fs.mkdirSync(fadhilDist, { recursive: true });
+        for (const dir of copyDirs) {
+          const srcDir = path.resolve(process.cwd(), dir);
+          const destDir = path.resolve(fadhilDist, dir);
+          if (fs.existsSync(srcDir)) {
+            fs.cpSync(srcDir, destDir, { recursive: true, force: true });
+          }
+        }
+        for (const file of rootFiles) {
+          const srcPath = path.resolve(process.cwd(), file);
+          const destPath = path.resolve(fadhilDist, file);
+          if (fs.existsSync(srcPath)) {
+            fs.copyFileSync(srcPath, destPath);
           }
         }
       }
@@ -124,16 +168,14 @@ export default defineConfig(() => {
     plugins: [fadhilRouterPlugin()],
     resolve: {
       alias: {
-        '@': path.resolve(process.cwd(), '.'),
-        '/fadhil/app': path.resolve(process.cwd(), 'app'),
-        '/fadhil/assets': path.resolve(process.cwd(), 'assets'),
+        '@': path.resolve(import.meta.dirname, '.'),
       },
     },
     build: {
       rollupOptions: {
         input: {
-          main: path.resolve(process.cwd(), 'index.html'),
-          notfound: path.resolve(process.cwd(), '404.html'),
+          main: path.resolve(import.meta.dirname, 'index.html'),
+          notfound: path.resolve(import.meta.dirname, '404.html'),
         },
       },
     },

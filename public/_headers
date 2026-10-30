@@ -1,0 +1,52 @@
+# Cloudflare Pages _headers configuration
+# Hyper-fast edge caching, zero-latency delivery, and modern security headers
+
+# Global baseline headers for all routes
+/*
+  X-Content-Type-Options: nosniff
+  X-Frame-Options: SAMEORIGIN
+  Referrer-Policy: strict-origin-when-cross-origin
+  Strict-Transport-Security: max-age=31536000; includeSubDomains; preload
+  Permissions-Policy: camera=(), microphone=(), geolocation=()
+
+# HTML Pages: immediate revalidation to prevent stale document rendering
+/
+  Cache-Control: public, max-age=0, must-revalidate
+/index.html
+  Cache-Control: public, max-age=0, must-revalidate
+/404.html
+  Cache-Control: public, max-age=0, must-revalidate
+/sw.js
+  Cache-Control: public, max-age=0, must-revalidate
+  Service-Worker-Allowed: /
+
+# Immutable static assets for 1-year global edge delivery
+/app/*
+  Cache-Control: public, max-age=31536000, immutable
+/assets/*
+  Cache-Control: public, max-age=31536000, immutable
+/*.webp
+  Cache-Control: public, max-age=31536000, immutable
+/*.avif
+  Cache-Control: public, max-age=31536000, immutable
+/*.png
+  Cache-Control: public, max-age=31536000, immutable
+/*.jpg
+  Cache-Control: public, max-age=31536000, immutable
+/*.svg
+  Cache-Control: public, max-age=31536000, immutable
+/*.ico
+  Cache-Control: public, max-age=31536000, immutable
+/*.css
+  Cache-Control: public, max-age=31536000, immutable
+/*.js
+  Cache-Control: public, max-age=31536000, immutable
+/site.webmanifest
+  Cache-Control: public, max-age=86400
+  Content-Type: application/manifest+json; charset=utf-8
+/sitemap.xml
+  Cache-Control: public, max-age=86400
+  Content-Type: application/xml; charset=utf-8
+/robots.txt
+  Cache-Control: public, max-age=86400
+  Content-Type: text/plain; charset=utf-8
