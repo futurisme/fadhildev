@@ -1,7 +1,12 @@
 # Cloudflare Pages Redirect & Static Rewrite Rules for fadhil.dev
-# Optimized for zero-latency edge delivery and seamless asset compatibility
+# Optimized for zero-latency edge delivery, custom 404 routing, and backward compatibility
 
-# 1. Backward-compatible 200 rewrites for any legacy /fadhil/ asset links
+# 1. Custom 404 handler routes
+/404 /404.html 200
+/fadhil/404 /404.html 200
+/fadhil/404.html /404.html 200
+
+# 2. Backward-compatible 200 rewrites for legacy /fadhil/ asset links
 /fadhil/app/* /app/:splat 200
 /fadhil/assets/* /assets/:splat 200
 /fadhil/favicon.svg /favicon.svg 200
@@ -11,7 +16,7 @@
 /fadhil/fadhil-512x512.png /fadhil-512x512.png 200
 /fadhil/fadhil.svg /fadhil.svg 200
 
-# 2. In-development & legacy paths redirected to single completed root (fadhil.dev/)
+# 3. In-development & legacy paths redirected to single completed root (fadhil.dev/)
 /shareideas/* / 302
 /shareideas / 302
 /mindmapmaker/* / 302
@@ -31,7 +36,7 @@
 /mobile/* / 302
 /mobile / 302
 
-# 3. Canonical root migration redirects
+# 4. Canonical root migration redirects
 /fadhil / 301
 /fadhil/ / 301
 /fadhil/index.html / 301

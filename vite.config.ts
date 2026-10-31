@@ -98,6 +98,36 @@ function fadhilRouterPlugin(): Plugin {
           return;
         }
 
+        // 3. Custom 404 handling for /404 and unmapped non-file routes
+        if (pathname === '/404' || pathname === '/404.html') {
+          const notFoundPath = path.resolve(process.cwd(), '404.html');
+          if (fs.existsSync(notFoundPath)) {
+            res.statusCode = 404;
+            res.setHeader('Content-Type', 'text/html; charset=utf-8');
+            res.setHeader('X-Robots-Tag', 'noindex, follow');
+            fs.createReadStream(notFoundPath).pipe(res);
+            return;
+          }
+        }
+
+        if (req.method === 'GET' && pathname !== '/' && pathname !== '/index.html') {
+          const isViteInternal = pathname.startsWith('/@') || pathname.startsWith('/node_modules/') || pathname.includes('?import');
+          if (!isViteInternal) {
+            const diskFile1 = path.resolve(process.cwd(), cleanPath);
+            const diskFile2 = path.resolve(process.cwd(), 'public', cleanPath);
+            if (!fs.existsSync(diskFile1) && !fs.existsSync(diskFile2)) {
+              const notFoundPath = path.resolve(process.cwd(), '404.html');
+              if (fs.existsSync(notFoundPath)) {
+                res.statusCode = 404;
+                res.setHeader('Content-Type', 'text/html; charset=utf-8');
+                res.setHeader('X-Robots-Tag', 'noindex, follow');
+                fs.createReadStream(notFoundPath).pipe(res);
+                return;
+              }
+            }
+          }
+        }
+
         next();
       });
     },

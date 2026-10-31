@@ -92,18 +92,26 @@
             "url": "https://fadhil.dev/",
             "name": "Fadhil Akbar Cariearsa - Developer Portfolio",
             "description": "Official portfolio of Fadhil Akbar Cariearsa showcasing software development projects, interactive web applications, technical skills, and core tools.",
-            "inLanguage": ["en", "id", "ja"]
+            "inLanguage": ["en", "id", "ja"],
+            "publisher": {
+              "@id": "https://fadhil.dev/#person"
+            }
           },
           {
             "@type": "Person",
             "@id": "https://fadhil.dev/#person",
             "name": "Fadhil Akbar Cariearsa",
-            "alternateName": ["Fadhil Cariearsa", "fadhil.dev", "futurisme"],
+            "alternateName": ["Fadhil Cariearsa", "fadhil.dev", "futurisme", "Cariearsa"],
             "url": "https://fadhil.dev/",
-            "image": "https://fadhil.dev/assets/images/portfolio-banner.jpg",
-            "jobTitle": "Full-Stack Developer",
+            "image": {
+              "@type": "ImageObject",
+              "url": "https://fadhil.dev/assets/images/portfolio-banner.jpg",
+              "width": 1200,
+              "height": 630
+            },
+            "jobTitle": "Full-Stack Developer & Generalist Hobbyist",
             "knowsAbout": [
-              "Full-Stack Development",
+              "Full-Stack Web Development",
               "TypeScript",
               "JavaScript",
               "Python",
@@ -111,8 +119,8 @@
               "HTML5",
               "CSS3",
               "UI/UX Design",
-              "Cybersecurity",
-              "3D Animation"
+              "Cybersecurity & Defensive Security",
+              "3D Animation & Art"
             ],
             "sameAs": [
               "https://github.com/fadhilakbarcariearsaindonesia",
@@ -133,15 +141,27 @@
           },
           {
             "@type": "ProfilePage",
-            "@id": "https://fadhil.dev/jp/#profilepage",
-            "url": "https://fadhil.dev/jp/",
-            "name": "Fadhil Akbar Cariearsa - デベロッパーポートフォリオ",
+            "@id": "https://fadhil.dev/#profilepage",
+            "url": "https://fadhil.dev/",
+            "name": "Fadhil Akbar Cariearsa - Developer Portfolio",
             "isPartOf": {
               "@id": "https://fadhil.dev/#website"
             },
             "mainEntity": {
               "@id": "https://fadhil.dev/#person"
             }
+          },
+          {
+            "@type": "BreadcrumbList",
+            "@id": "https://fadhil.dev/#breadcrumb",
+            "itemListElement": [
+              {
+                "@type": "ListItem",
+                "position": 1,
+                "name": "Home",
+                "item": "https://fadhil.dev/"
+              }
+            ]
           }
         ]
       }

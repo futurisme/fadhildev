@@ -21,8 +21,17 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
     <meta name="apple-mobile-web-app-title" content="Fadhil Dev" />
 
-    <!-- Canonical: strictly single authoritative root -->
+        <!-- Canonical & Multilingual Alternate Links (hreflang) -->
     <link rel="canonical" href="https://fadhil.dev/" />
+    <link rel="alternate" hreflang="x-default" href="https://fadhil.dev/" />
+    <link rel="alternate" hreflang="en" href="https://fadhil.dev/" />
+    <link rel="alternate" hreflang="id" href="https://fadhil.dev/" />
+    <link rel="alternate" hreflang="ja" href="https://fadhil.dev/" />
+
+    <!-- Discovery Sitemap & Technical Directives -->
+    <link rel="sitemap" type="application/xml" title="Sitemap" href="/sitemap.xml" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="referrer" content="strict-origin-when-cross-origin" />
 
     <!-- Inline theme setup to prevent FOUC / CLS -->
     <script>
@@ -72,18 +81,26 @@
             "url": "https://fadhil.dev/",
             "name": "Fadhil Akbar Cariearsa - Developer Portfolio",
             "description": "Official portfolio of Fadhil Akbar Cariearsa showcasing software development projects, interactive web applications, technical skills, and core tools.",
-            "inLanguage": ["en", "id", "ja"]
+            "inLanguage": ["en", "id", "ja"],
+            "publisher": {
+              "@id": "https://fadhil.dev/#person"
+            }
           },
           {
             "@type": "Person",
             "@id": "https://fadhil.dev/#person",
             "name": "Fadhil Akbar Cariearsa",
-            "alternateName": ["Fadhil Cariearsa", "fadhil.dev", "futurisme"],
+            "alternateName": ["Fadhil Cariearsa", "fadhil.dev", "futurisme", "Cariearsa"],
             "url": "https://fadhil.dev/",
-            "image": "https://fadhil.dev/assets/images/portfolio-banner.jpg",
-            "jobTitle": "Full-Stack Developer",
+            "image": {
+              "@type": "ImageObject",
+              "url": "https://fadhil.dev/assets/images/portfolio-banner.jpg",
+              "width": 1200,
+              "height": 630
+            },
+            "jobTitle": "Full-Stack Developer & Generalist Hobbyist",
             "knowsAbout": [
-              "Full-Stack Development",
+              "Full-Stack Web Development",
               "TypeScript",
               "JavaScript",
               "Python",
@@ -91,8 +108,8 @@
               "HTML5",
               "CSS3",
               "UI/UX Design",
-              "Cybersecurity",
-              "3D Animation"
+              "Cybersecurity & Defensive Security",
+              "3D Animation & Art"
             ],
             "sameAs": [
               "https://github.com/fadhilakbarcariearsaindonesia",
@@ -122,6 +139,18 @@
             "mainEntity": {
               "@id": "https://fadhil.dev/#person"
             }
+          },
+          {
+            "@type": "BreadcrumbList",
+            "@id": "https://fadhil.dev/#breadcrumb",
+            "itemListElement": [
+              {
+                "@type": "ListItem",
+                "position": 1,
+                "name": "Home",
+                "item": "https://fadhil.dev/"
+              }
+            ]
           }
         ]
       }

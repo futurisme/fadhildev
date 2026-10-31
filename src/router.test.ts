@@ -36,6 +36,11 @@ function shouldRedirect(pathname: string, ext: string): boolean {
   return inDevRoutes.includes(pathname) || (!ext && pathname.startsWith('/fadhil/'));
 }
 
+function is404Route(pathname: string, knownRoutes: string[]): boolean {
+  if (pathname === '/404' || pathname === '/404.html') return true;
+  return !knownRoutes.includes(pathname);
+}
+
 test('resolves asset paths with /fadhil/ prefix cleanly', () => {
   assert.equal(resolveCleanPath('/fadhil/app/styles.css'), 'app/styles.css');
   assert.equal(resolveCleanPath('/fadhil/assets/images/portfolio-banner.jpg'), 'assets/images/portfolio-banner.jpg');
@@ -55,4 +60,12 @@ test('redirects legacy page routes while allowing asset extensions', () => {
   // Assets with extensions must NOT be redirected
   assert.equal(shouldRedirect('/fadhil/app/styles.css', '.css'), false);
   assert.equal(shouldRedirect('/fadhil/assets/images/theme.avif', '.avif'), false);
+});
+
+test('identifies 404 routes accurately', () => {
+  const known = ['/', '/index.html'];
+  assert.equal(is404Route('/404', known), true);
+  assert.equal(is404Route('/404.html', known), true);
+  assert.equal(is404Route('/random-missing-page', known), true);
+  assert.equal(is404Route('/', known), false);
 });

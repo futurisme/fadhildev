@@ -1,10 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:xhtml="http://www.w3.org/1999/xhtml"
+        xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
   <!-- Authoritative Single Root Page for fadhil.dev -->
   <url>
     <loc>https://fadhil.dev/</loc>
-    <lastmod>2026-10-27</lastmod>
+    <lastmod>2026-10-31</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://fadhil.dev/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://fadhil.dev/" />
+    <xhtml:link rel="alternate" hreflang="id" href="https://fadhil.dev/" />
+    <xhtml:link rel="alternate" hreflang="ja" href="https://fadhil.dev/" />
+    <image:image>
+      <image:loc>https://fadhil.dev/assets/images/portfolio-banner.jpg</image:loc>
+      <image:title>Fadhil Akbar Cariearsa - Developer Portfolio</image:title>
+      <image:caption>Official portfolio banner of Fadhil Akbar Cariearsa</image:caption>
+    </image:image>
   </url>
 </urlset>
