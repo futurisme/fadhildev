@@ -66,7 +66,7 @@ function fadhilRouterPlugin(): Plugin {
                 if (stat.isFile()) {
                   res.setHeader('Content-Type', MIME_TYPES[ext]);
                   res.setHeader('Content-Length', stat.size);
-                  res.setHeader('Cache-Control', 'public, max-age=31536000, immutable');
+                  res.setHeader('Cache-Control', 'no-cache, no-store, must-revalidate');
                   res.setHeader('X-Content-Type-Options', 'nosniff');
                   fs.createReadStream(cand).pipe(res);
                   return;
