@@ -1,10 +1,10 @@
-import { initAvifHyperLoadEngine } from ./boot.js;
-import { initAudioTriggers } from ./audio.js;
-import { initThemeSwitcher } from ./theme.js;
-import { initHeroYouTube } from ./youtube.js;
-import { initLanguageSwitcher } from ./lang.js;
-import { initInteractiveUI } from ./interactive.js;
-import { initPWA } from ./pwa.js;
+import { initAvifHyperLoadEngine } from './boot.js';
+import { initAudioTriggers } from './audio.js';
+import { initThemeSwitcher } from './theme.js';
+import { initHeroYouTube } from './youtube.js';
+import { initLanguageSwitcher } from './lang.js';
+import { initInteractiveUI } from './interactive.js';
+import { initPWA } from './pwa.js';
 
 (() => {
   // 0. Initialize hyper-load AVIF browser detection
