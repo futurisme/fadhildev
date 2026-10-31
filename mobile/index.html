@@ -826,6 +826,47 @@
         }
       }
     </style>
+      <!-- State-of-the-Art October 2026 AVIF Hyper-Load & Browser Detection Engine -->
+    <script>
+      (function() {
+        var doc = document.documentElement;
+        var avifSupported = false;
+        try {
+          var c = document.createElement("canvas");
+          if (c.toDataURL && c.toDataURL("image/avif").indexOf("data:image/avif") === 0) {
+            avifSupported = true;
+          }
+        } catch(e) {}
+
+        if (avifSupported) {
+          doc.classList.add("has-avif");
+          window.__AVIF_SUPPORT__ = true;
+        } else {
+          var probe = new Image();
+          probe.onload = function() {
+            var ok = (probe.width === 1 && probe.height === 1);
+            doc.classList.add(ok ? "has-avif" : "no-avif");
+            window.__AVIF_SUPPORT__ = ok;
+            if (!ok) fallbackNonAvif();
+          };
+          probe.onerror = function() {
+            doc.classList.add("no-avif");
+            window.__AVIF_SUPPORT__ = false;
+            fallbackNonAvif();
+          };
+          probe.src = "data:image/avif;base64,AAAAHGZ0eXBhdmlmAAAAAGF2aWZtaWYxbWlhZgAAARNtZXRhAAAAAAAAACFoZGxyAAAAAAAAAABwaWN0AAAAAAAAAAAAAAAAAAAAAA5waXRtAAAAAAABAAAAImlsb2MAAAAAREAAAQABAAAAAAE3AAEAAAAAAAAAFwAAACNpaW5mAAAAAAABAAAAFWluZmUCAAAAAAEAAGF2MDEAAAAAk2lwcnAAAABzaXBjbwAAABNjb2xybmNseAACAAIABoAAAAAMYXYxQ4EADAAAAAAUaXNwZQAAAAAAAAABAAAAAQAAAChjbGFwAAAAAQAAAAEAAAABAAAAAf////EAAAAC////8QAAAAIAAAAQcGl4aQAAAAADCAgIAAAAGGlwbWEAAAAAAAAAAQABBYGCA4SFAAAAH21kYXQSAAoFGAAGhCAyDBfwAABIAAAAsBNL6A==";
+        }
+
+        function fallbackNonAvif() {
+          var imgs = document.querySelectorAll("img[data-fallback]");
+          for (var i = 0; i < imgs.length; i++) {
+            var fallback = imgs[i].getAttribute("data-fallback");
+            if (fallback) imgs[i].src = fallback;
+          }
+        }
+        window.__fallbackNonAvif = fallbackNonAvif;
+      })();
+    </script>
   </head>
   <body>
     <!-- Top Infinite Neon Billboard Runner (Matching /*) -->
@@ -1100,143 +1141,129 @@
               </div>
               <div class="socials-card-body">
                 <ul class="socials-14-grid" aria-label="Active social profiles">
-                  <!-- 1. MAL -->
                   <li>
                     <a href="https://myanimelist.net/profile/fadhilakbar" target="_blank" rel="noopener noreferrer" class="social-slot-link social-variant-1" title="MyAnimeList">
                       <picture>
                         <source srcset="/assets/images/social/myanimelist.avif" type="image/avif" />
                         <source srcset="/assets/images/social/myanimelist.webp" type="image/webp" />
-                        <img src="/assets/images/social/myanimelist.jpg" alt="MyAnimeList" width="36" height="36" loading="lazy" />
+                        <img src="/assets/images/social/myanimelist.avif" data-fallback="/assets/images/social/myanimelist.webp" alt="MyAnimeList" width="36" height="36" loading="lazy" decoding="async" onerror="if(!this.dataset.errored){this.dataset.errored="1";this.src="/assets/images/social/myanimelist.webp";}" />
                       </picture>
                     </a>
                   </li>
-                  <!-- 2. Discord -->
                   <li>
                     <a href="https://discord.com/users/1323914885238624298" target="_blank" rel="noopener noreferrer" class="social-slot-link social-variant-2" title="Discord">
                       <picture>
                         <source srcset="/assets/images/social/discord.avif" type="image/avif" />
                         <source srcset="/assets/images/social/discord.webp" type="image/webp" />
-                        <img src="/assets/images/social/discord.jpg" alt="Discord" width="36" height="36" loading="lazy" />
+                        <img src="/assets/images/social/discord.avif" data-fallback="/assets/images/social/discord.webp" alt="Discord" width="36" height="36" loading="lazy" decoding="async" onerror="if(!this.dataset.errored){this.dataset.errored="1";this.src="/assets/images/social/discord.webp";}" />
                       </picture>
                     </a>
                   </li>
-                  <!-- 3. Instagram -->
                   <li>
                     <a href="https://www.instagram.com/fadhil.akbar.cariearsa?igsh=MWxraXQ2cjh0b3JyZA==" target="_blank" rel="noopener noreferrer" class="social-slot-link social-variant-3" title="Instagram">
                       <picture>
                         <source srcset="/assets/images/social/instagram.avif" type="image/avif" />
                         <source srcset="/assets/images/social/instagram.webp" type="image/webp" />
-                        <img src="/assets/images/social/instagram.jpg" alt="Instagram" width="36" height="36" loading="lazy" />
+                        <img src="/assets/images/social/instagram.avif" data-fallback="/assets/images/social/instagram.webp" alt="Instagram" width="36" height="36" loading="lazy" decoding="async" onerror="if(!this.dataset.errored){this.dataset.errored="1";this.src="/assets/images/social/instagram.webp";}" />
                       </picture>
                     </a>
                   </li>
-                  <!-- 4. Duolingo -->
                   <li>
                     <a href="https://www.duolingo.com/profile/MTsN3Malang" target="_blank" rel="noopener noreferrer" class="social-slot-link social-variant-1" title="Duolingo">
                       <picture>
                         <source srcset="/assets/images/social/duolingo.avif" type="image/avif" />
                         <source srcset="/assets/images/social/duolingo.webp" type="image/webp" />
-                        <img src="/assets/images/social/duolingo.jpg" alt="Duolingo" width="36" height="36" loading="lazy" />
+                        <img src="/assets/images/social/duolingo.avif" data-fallback="/assets/images/social/duolingo.webp" alt="Duolingo" width="36" height="36" loading="lazy" decoding="async" onerror="if(!this.dataset.errored){this.dataset.errored="1";this.src="/assets/images/social/duolingo.webp";}" />
                       </picture>
                     </a>
                   </li>
-                  <!-- 5. LeetCode -->
                   <li>
                     <a href="https://leetcode.com/u/FadhilAkbarCariearsa" target="_blank" rel="noopener noreferrer" class="social-slot-link social-variant-2" title="LeetCode">
                       <picture>
                         <source srcset="/assets/images/social/leetcode.avif" type="image/avif" />
                         <source srcset="/assets/images/social/leetcode.webp" type="image/webp" />
-                        <img src="/assets/images/social/leetcode.jpg" alt="LeetCode" width="36" height="36" loading="lazy" />
+                        <img src="/assets/images/social/leetcode.avif" data-fallback="/assets/images/social/leetcode.webp" alt="LeetCode" width="36" height="36" loading="lazy" decoding="async" onerror="if(!this.dataset.errored){this.dataset.errored="1";this.src="/assets/images/social/leetcode.webp";}" />
                       </picture>
                     </a>
                   </li>
-                  <!-- 6. Monkeytype -->
                   <li>
                     <a href="https://monkeytype.com/profile/fadhilakbar" target="_blank" rel="noopener noreferrer" class="social-slot-link social-variant-3" title="Monkeytype">
                       <picture>
                         <source srcset="/assets/images/social/monkeytype.avif" type="image/avif" />
                         <source srcset="/assets/images/social/monkeytype.webp" type="image/webp" />
-                        <img src="/assets/images/social/monkeytype.jpg" alt="Monkeytype" width="36" height="36" loading="lazy" />
+                        <img src="/assets/images/social/monkeytype.avif" data-fallback="/assets/images/social/monkeytype.webp" alt="Monkeytype" width="36" height="36" loading="lazy" decoding="async" onerror="if(!this.dataset.errored){this.dataset.errored="1";this.src="/assets/images/social/monkeytype.webp";}" />
                       </picture>
                     </a>
                   </li>
-                  <!-- 7. GitHub -->
                   <li>
                     <a href="https://github.com/fadhilakbarcariearsaindonesia" target="_blank" rel="noopener noreferrer" class="social-slot-link social-variant-1" title="GitHub">
                       <picture>
                         <source srcset="/assets/images/social/github.avif" type="image/avif" />
                         <source srcset="/assets/images/social/github.webp" type="image/webp" />
-                        <img src="/assets/images/social/github.jpg" alt="GitHub" width="36" height="36" loading="lazy" />
+                        <img src="/assets/images/social/github.avif" data-fallback="/assets/images/social/github.webp" alt="GitHub" width="36" height="36" loading="lazy" decoding="async" onerror="if(!this.dataset.errored){this.dataset.errored="1";this.src="/assets/images/social/github.webp";}" />
                       </picture>
                     </a>
                   </li>
-                  <!-- 8. TryHackMe -->
                   <li>
                     <a href="https://tryhackme.com/p/fadhilakbar" target="_blank" rel="noopener noreferrer" class="social-slot-link social-variant-2" title="TryHackMe">
                       <picture>
                         <source srcset="/assets/images/social/tryhackme.avif" type="image/avif" />
                         <source srcset="/assets/images/social/tryhackme.webp" type="image/webp" />
-                        <img src="/assets/images/social/tryhackme.jpg" alt="TryHackMe" width="36" height="36" loading="lazy" />
+                        <img src="/assets/images/social/tryhackme.avif" data-fallback="/assets/images/social/tryhackme.webp" alt="TryHackMe" width="36" height="36" loading="lazy" decoding="async" onerror="if(!this.dataset.errored){this.dataset.errored="1";this.src="/assets/images/social/tryhackme.webp";}" />
                       </picture>
                     </a>
                   </li>
-                  <!-- 9. Spotify -->
                   <li>
                     <a href="https://open.spotify.com/user/31atjyxnu3ck3yxvr3vsk7igsoqi" target="_blank" rel="noopener noreferrer" class="social-slot-link social-variant-3" title="Spotify">
                       <picture>
                         <source srcset="/assets/images/social/spotify.avif" type="image/avif" />
                         <source srcset="/assets/images/social/spotify.webp" type="image/webp" />
-                        <img src="/assets/images/social/spotify.jpg" alt="Spotify" width="36" height="36" loading="lazy" />
+                        <img src="/assets/images/social/spotify.avif" data-fallback="/assets/images/social/spotify.webp" alt="Spotify" width="36" height="36" loading="lazy" decoding="async" onerror="if(!this.dataset.errored){this.dataset.errored="1";this.src="/assets/images/social/spotify.webp";}" />
                       </picture>
                     </a>
                   </li>
-                  <!-- 10. IMDb -->
                   <li>
                     <a href="https://www.imdb.com/user/p.bl7qolkdgr7bhx2kf7hxuhokau?ref_=hm_nv_profile" target="_blank" rel="noopener noreferrer" class="social-slot-link social-variant-1" title="IMDb">
                       <picture>
                         <source srcset="/assets/images/social/imdb.avif" type="image/avif" />
                         <source srcset="/assets/images/social/imdb.webp" type="image/webp" />
-                        <img src="/assets/images/social/imdb.jpg" alt="IMDb" width="36" height="36" loading="lazy" />
+                        <img src="/assets/images/social/imdb.avif" data-fallback="/assets/images/social/imdb.webp" alt="IMDb" width="36" height="36" loading="lazy" decoding="async" onerror="if(!this.dataset.errored){this.dataset.errored="1";this.src="/assets/images/social/imdb.webp";}" />
                       </picture>
                     </a>
                   </li>
-                  <!-- 11. Wikipedia -->
                   <li>
                     <a href="https://id.wikipedia.org/wiki/Pengguna:Fadhil_Akbar_Cariearsa" target="_blank" rel="noopener noreferrer" class="social-slot-link social-variant-2" title="Wikipedia Profile">
                       <picture>
                         <source srcset="/assets/images/social/wikipedia.avif" type="image/avif" />
                         <source srcset="/assets/images/social/wikipedia.webp" type="image/webp" />
-                        <img src="/assets/images/social/wikipedia.jpg" alt="Wikipedia" width="36" height="36" loading="lazy" />
+                        <img src="/assets/images/social/wikipedia.avif" data-fallback="/assets/images/social/wikipedia.webp" alt="Wikipedia" width="36" height="36" loading="lazy" decoding="async" onerror="if(!this.dataset.errored){this.dataset.errored="1";this.src="/assets/images/social/wikipedia.webp";}" />
                       </picture>
                     </a>
                   </li>
-                  <!-- 12. LinkedIn -->
                   <li>
                     <a href="https://www.linkedin.com/in/cariearsa/" target="_blank" rel="noopener noreferrer" class="social-slot-link social-variant-3" title="LinkedIn">
                       <picture>
                         <source srcset="/assets/images/social/linkedin.avif" type="image/avif" />
                         <source srcset="/assets/images/social/linkedin.webp" type="image/webp" />
-                        <img src="/assets/images/social/linkedin.jpg" alt="LinkedIn" width="36" height="36" loading="lazy" />
+                        <img src="/assets/images/social/linkedin.avif" data-fallback="/assets/images/social/linkedin.webp" alt="LinkedIn" width="36" height="36" loading="lazy" decoding="async" onerror="if(!this.dataset.errored){this.dataset.errored="1";this.src="/assets/images/social/linkedin.webp";}" />
                       </picture>
                     </a>
                   </li>
-                  <!-- 13. Roblox -->
                   <li>
                     <a href="https://www.roblox.com/users/profile?username=therealjeff_roblox" target="_blank" rel="noopener noreferrer" class="social-slot-link social-variant-1" title="Roblox">
                       <picture>
                         <source srcset="/assets/images/social/roblox.avif" type="image/avif" />
                         <source srcset="/assets/images/social/roblox.webp" type="image/webp" />
-                        <img src="/assets/images/social/roblox.jpg" alt="Roblox" width="36" height="36" loading="lazy" />
+                        <img src="/assets/images/social/roblox.avif" data-fallback="/assets/images/social/roblox.webp" alt="Roblox" width="36" height="36" loading="lazy" decoding="async" onerror="if(!this.dataset.errored){this.dataset.errored="1";this.src="/assets/images/social/roblox.webp";}" />
                       </picture>
                     </a>
                   </li>
-                  <!-- 14. daily.dev -->
                   <li>
                     <a href="https://app.daily.dev/fadhilakbar" target="_blank" rel="noopener noreferrer" class="social-slot-link social-variant-2" title="daily.dev">
                       <picture>
                         <source srcset="/assets/images/social/dailydev.avif" type="image/avif" />
                         <source srcset="/assets/images/social/dailydev.webp" type="image/webp" />
-                        <img src="/assets/images/social/dailydev.jpg" alt="daily.dev" width="36" height="36" loading="lazy" />
+                        <img src="/assets/images/social/dailydev.avif" data-fallback="/assets/images/social/dailydev.webp" alt="daily.dev" width="36" height="36" loading="lazy" decoding="async" onerror="if(!this.dataset.errored){this.dataset.errored="1";this.src="/assets/images/social/dailydev.webp";}" />
                       </picture>
                     </a>
                   </li>
@@ -1258,86 +1285,100 @@
                 <ul class="tools-14-grid" aria-label="Development tools and platforms">
                   <li class="tool-slot-item tool-variant-1" title="ibisPaint" tabindex="0" role="button" aria-label="ibisPaint Iconbox">
                     <picture>
-                      <source srcset="/ibispaint-logo.avif" type="image/avif" />
-                      <img src="/ibispaint-logo.webp" alt="ibisPaint" width="40" height="40" loading="lazy" decoding="async" />
+                      <source srcset="/assets/images/platform-icons/ibis_paint.avif" type="image/avif" />
+                      <source srcset="/assets/images/platform-icons/ibis_paint.webp" type="image/webp" />
+                      <img src="/assets/images/platform-icons/ibis_paint.avif" alt="ibisPaint" width="40" height="40" loading="lazy" decoding="async" />
                     </picture>
                   </li>
                   <li class="tool-slot-item tool-variant-2" title="VS Code" tabindex="0" role="button" aria-label="VS Code Iconbox">
                     <picture>
-                      <source srcset="/vscode-logo.avif" type="image/avif" />
-                      <img src="/vscode-logo.webp" alt="VS Code" width="40" height="40" loading="lazy" decoding="async" />
+                      <source srcset="/assets/images/platform-icons/vs_code.avif" type="image/avif" />
+                      <source srcset="/assets/images/platform-icons/vs_code.webp" type="image/webp" />
+                      <img src="/assets/images/platform-icons/vs_code.avif" alt="VS Code" width="40" height="40" loading="lazy" decoding="async" />
                     </picture>
                   </li>
                   <li class="tool-slot-item tool-variant-3" title="Cloudflare" tabindex="0" role="button" aria-label="Cloudflare Iconbox">
                     <picture>
-                      <source srcset="/cloudflare-logo.avif" type="image/avif" />
-                      <img src="/cloudflare-logo.webp" alt="Cloudflare" width="40" height="40" loading="lazy" decoding="async" />
+                      <source srcset="/assets/images/platform-icons/cloudflare.avif" type="image/avif" />
+                      <source srcset="/assets/images/platform-icons/cloudflare.webp" type="image/webp" />
+                      <img src="/assets/images/platform-icons/cloudflare.avif" alt="Cloudflare" width="40" height="40" loading="lazy" decoding="async" />
                     </picture>
                   </li>
                   <li class="tool-slot-item tool-variant-1" title="Cloudflare Workers" tabindex="0" role="button" aria-label="Cloudflare Workers Iconbox">
                     <picture>
-                      <source srcset="/cloudflare-workers-logo.avif" type="image/avif" />
-                      <img src="/cloudflare-workers-logo.webp" alt="Cloudflare Workers" width="40" height="40" loading="lazy" decoding="async" />
+                      <source srcset="/assets/images/platform-icons/cloudflare_workers.avif" type="image/avif" />
+                      <source srcset="/assets/images/platform-icons/cloudflare_workers.webp" type="image/webp" />
+                      <img src="/assets/images/platform-icons/cloudflare_workers.avif" alt="Cloudflare Workers" width="40" height="40" loading="lazy" decoding="async" />
                     </picture>
                   </li>
                   <li class="tool-slot-item tool-variant-2" title="Supabase" tabindex="0" role="button" aria-label="Supabase Iconbox">
                     <picture>
-                      <source srcset="/supabase-logo.avif" type="image/avif" />
-                      <img src="/supabase-logo.webp" alt="Supabase" width="40" height="40" loading="lazy" decoding="async" />
+                      <source srcset="/assets/images/platform-icons/supabase.avif" type="image/avif" />
+                      <source srcset="/assets/images/platform-icons/supabase.webp" type="image/webp" />
+                      <img src="/assets/images/platform-icons/supabase.avif" alt="Supabase" width="40" height="40" loading="lazy" decoding="async" />
                     </picture>
                   </li>
                   <li class="tool-slot-item tool-variant-3" title="Git" tabindex="0" role="button" aria-label="Git Iconbox">
                     <picture>
-                      <source srcset="/git-logo.avif" type="image/avif" />
-                      <img src="/git-logo.webp" alt="Git" width="40" height="40" loading="lazy" decoding="async" />
+                      <source srcset="/assets/images/platform-icons/git.avif" type="image/avif" />
+                      <source srcset="/assets/images/platform-icons/git.webp" type="image/webp" />
+                      <img src="/assets/images/platform-icons/git.avif" alt="Git" width="40" height="40" loading="lazy" decoding="async" />
                     </picture>
                   </li>
                   <li class="tool-slot-item tool-variant-1" title="Figma" tabindex="0" role="button" aria-label="Figma Iconbox">
                     <picture>
-                      <source srcset="/figma-logo.avif" type="image/avif" />
-                      <img src="/figma-logo.webp" alt="Figma" width="40" height="40" loading="lazy" decoding="async" />
+                      <source srcset="/assets/images/platform-icons/figma.avif" type="image/avif" />
+                      <source srcset="/assets/images/platform-icons/figma.webp" type="image/webp" />
+                      <img src="/assets/images/platform-icons/figma.avif" alt="Figma" width="40" height="40" loading="lazy" decoding="async" />
                     </picture>
                   </li>
                   <li class="tool-slot-item tool-variant-2" title="PostgreSQL" tabindex="0" role="button" aria-label="PostgreSQL Iconbox">
                     <picture>
-                      <source srcset="/postgresql-logo.avif" type="image/avif" />
-                      <img src="/postgresql-logo.webp" alt="PostgreSQL" width="40" height="40" loading="lazy" decoding="async" />
+                      <source srcset="/assets/images/platform-icons/postgresql.avif" type="image/avif" />
+                      <source srcset="/assets/images/platform-icons/postgresql.webp" type="image/webp" />
+                      <img src="/assets/images/platform-icons/postgresql.avif" alt="PostgreSQL" width="40" height="40" loading="lazy" decoding="async" />
                     </picture>
                   </li>
-                  <li class="tool-slot-item tool-variant-3" title="MongoDB" tabindex="0" role="button" aria-label="MongoDB Iconbox">
+                  <li class="tool-slot-item tool-variant-3" title="Android Studio" tabindex="0" role="button" aria-label="Android Studio Iconbox">
                     <picture>
-                      <source srcset="/mongodb-logo.avif" type="image/avif" />
-                      <img src="/mongodb-logo.webp" alt="MongoDB" width="40" height="40" loading="lazy" decoding="async" />
+                      <source srcset="/assets/images/platform-icons/android_studio.avif" type="image/avif" />
+                      <source srcset="/assets/images/platform-icons/android_studio.webp" type="image/webp" />
+                      <img src="/assets/images/platform-icons/android_studio.avif" alt="Android Studio" width="40" height="40" loading="lazy" decoding="async" />
                     </picture>
                   </li>
                   <li class="tool-slot-item tool-variant-1" title="Blender" tabindex="0" role="button" aria-label="Blender Iconbox">
                     <picture>
-                      <source srcset="/blender-logo.avif" type="image/avif" />
-                      <img src="/blender-logo.webp" alt="Blender" width="40" height="40" loading="lazy" decoding="async" />
+                      <source srcset="/assets/images/platform-icons/blender.avif" type="image/avif" />
+                      <source srcset="/assets/images/platform-icons/blender.webp" type="image/webp" />
+                      <img src="/assets/images/platform-icons/blender.avif" alt="Blender" width="40" height="40" loading="lazy" decoding="async" />
                     </picture>
                   </li>
                   <li class="tool-slot-item tool-variant-2" title="Krita" tabindex="0" role="button" aria-label="Krita Iconbox">
                     <picture>
-                      <source srcset="/krita-logo.avif" type="image/avif" />
-                      <img src="/krita-logo.webp" alt="Krita" width="40" height="40" loading="lazy" decoding="async" />
+                      <source srcset="/assets/images/platform-icons/krita.avif" type="image/avif" />
+                      <source srcset="/assets/images/platform-icons/krita.webp" type="image/webp" />
+                      <img src="/assets/images/platform-icons/krita.avif" alt="Krita" width="40" height="40" loading="lazy" decoding="async" />
                     </picture>
                   </li>
                   <li class="tool-slot-item tool-variant-3" title="Canva" tabindex="0" role="button" aria-label="Canva Iconbox">
                     <picture>
-                      <source srcset="/canva-logo.avif" type="image/avif" />
-                      <img src="/canva-logo.webp" alt="Canva" width="40" height="40" loading="lazy" decoding="async" />
+                      <source srcset="/assets/images/platform-icons/canva.avif" type="image/avif" />
+                      <source srcset="/assets/images/platform-icons/canva.webp" type="image/webp" />
+                      <img src="/assets/images/platform-icons/canva.avif" alt="Canva" width="40" height="40" loading="lazy" decoding="async" />
                     </picture>
                   </li>
                   <li class="tool-slot-item tool-variant-1" title="Roblox Studio" tabindex="0" role="button" aria-label="Roblox Studio Iconbox">
                     <picture>
-                      <source srcset="/roblox-studio-logo.avif" type="image/avif" />
-                      <img src="/roblox-studio-logo.webp" alt="Roblox Studio" width="40" height="40" loading="lazy" decoding="async" />
+                      <source srcset="/assets/images/platform-icons/roblox_studio.avif" type="image/avif" />
+                      <source srcset="/assets/images/platform-icons/roblox_studio.webp" type="image/webp" />
+                      <img src="/assets/images/platform-icons/roblox_studio.avif" alt="Roblox Studio" width="40" height="40" loading="lazy" decoding="async" />
                     </picture>
                   </li>
-                  <li class="tool-slot-item tool-variant-2" title="Chrome DevTools" tabindex="0" role="button" aria-label="Chrome DevTools Iconbox">
+                  <li class="tool-slot-item tool-variant-2" title="Google AI Studio" tabindex="0" role="button" aria-label="Google AI Studio Iconbox">
                     <picture>
-                      <source srcset="/devtool-logo.avif" type="image/avif" />
-                      <img src="/devtool-logo.webp" alt="Chrome DevTools" width="40" height="40" loading="lazy" decoding="async" />
+                      <source srcset="/assets/images/platform-icons/google_ai_studio.avif" type="image/avif" />
+                      <source srcset="/assets/images/platform-icons/google_ai_studio.webp" type="image/webp" />
+                      <img src="/assets/images/platform-icons/google_ai_studio.avif" alt="Google AI Studio" width="40" height="40" loading="lazy" decoding="async" />
                     </picture>
                   </li>
                 </ul>
