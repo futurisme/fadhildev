@@ -12,8 +12,8 @@ const sw = fs.readFileSync('sw.js', 'utf8');
 
 test('index.html meets Nov 17 2026 SEO, timestamp, deprecation, and accessibility standards', () => {
   assert.match(indexHtml, /<link rel="canonical" href="https:\/\/fadhil\.dev\/" \/>/);
-  assert.match(indexHtml, /<meta property="og:updated_time" content="2026-11-17T20:36:00-08:00" \/>/);
-  assert.match(indexHtml, /"dateModified": "2026-11-17T20:36:00-08:00"/);
+  assert.match(indexHtml, /<meta property="og:updated_time" content="2026-11-17T21:01:00-08:00" \/>/);
+  assert.match(indexHtml, /"dateModified": "2026-11-17T21:01:00-08:00"/);
   assert.match(indexHtml, /href="\/app\/styles\.css\?v=20261117b"/);
 
   // Deprecated & bloated constructs removed
@@ -37,6 +37,12 @@ test('index.html meets Nov 17 2026 SEO, timestamp, deprecation, and accessibilit
   const parsed = JSON.parse(ldMatch[1]);
   const types = parsed['@graph'].map((node) => node['@type']);
   assert.deepEqual(types, ['WebSite', 'Person', 'ProfilePage', 'ItemList', 'BreadcrumbList']);
+  const itemList = parsed['@graph'].find((node) => node['@type'] === 'ItemList');
+  assert.equal(itemList.itemListElement.length, 4);
+  for (const listItem of itemList.itemListElement) {
+    assert.equal(listItem.item['@type'], 'CreativeWork');
+    assert.ok(listItem.item.name && listItem.item.image && listItem.item.url);
+  }
 });
 
 test('404.html enforces noindex without self-canonical', () => {
@@ -58,7 +64,7 @@ test('robots.txt, sitemap.xml, and sw.js reflect Nov 17 2026 configuration', () 
   assert.match(robots, /^Allow: \/$/m);
   assert.doesNotMatch(robots, /^Disallow: \/404/m);
   assert.match(robots, /^Sitemap: https:\/\/fadhil\.dev\/sitemap\.xml$/m);
-  assert.match(sitemap, /<lastmod>2026-11-17T20:36:00-08:00<\/lastmod>/);
+  assert.match(sitemap, /<lastmod>2026-11-17T21:01:00-08:00<\/lastmod>/);
   assert.match(sw, /const CACHE_NAME = 'fadhil-pwa-v20261117b';/);
   assert.match(sw, /ignoreSearch: true/);
 });

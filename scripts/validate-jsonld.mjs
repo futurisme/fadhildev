@@ -27,6 +27,26 @@ for (const file of htmlFiles) {
       .trim();
     try {
       const parsed = JSON.parse(rawJson);
+      const inspectNode = (node) => {
+        if (!node || typeof node !== 'object') return;
+        if (Array.isArray(node)) {
+          node.forEach(inspectNode);
+          return;
+        }
+        const types = Array.isArray(node['@type']) ? node['@type'] : [node['@type']];
+        if (types.some((t) => typeof t === 'string' && /(?:Software|Web|Mobile)Application$/i.test(t))) {
+          if (!node.offers || (!node.aggregateRating && !node.review)) {
+            console.error(
+              `✗ [${file}] ${types.join('/')} ("${node.name || 'unnamed'}") requires offers and aggregateRating/review for Google Rich Results`
+            );
+            errors++;
+          }
+        }
+        for (const val of Object.values(node)) {
+          inspectNode(val);
+        }
+      };
+      inspectNode(parsed);
       console.log(`✓ [${file}] Valid JSON-LD (${parsed['@graph'] ? parsed['@graph'].length + ' graph items' : parsed['@type']})`);
     } catch (err) {
       console.error(`✗ [${file}] JSON-LD Parse Error: ${err.message}`);
