@@ -1,17 +1,15 @@
-# Cloudflare Pages _headers configuration
-# Hyper-fast edge caching, zero-latency delivery, advanced SEO and modern security headers
+# Cloudflare Pages _headers configuration (Updated: 2026-11-17)
+# Unencumbered crawling, indexing, edge caching, and modern baseline headers
 
-# Global baseline headers for all routes
+# Global baseline headers for all routes (no restrictive frame or crawler blocks)
 /*
   X-Content-Type-Options: nosniff
-  X-Frame-Options: SAMEORIGIN
   Referrer-Policy: strict-origin-when-cross-origin
   Strict-Transport-Security: max-age=31536000; includeSubDomains; preload
-  Permissions-Policy: camera=(), microphone=(), geolocation=(), payment=()
-  X-Robots-Tag: all, index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1
+  X-Robots-Tag: index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1
   Access-Control-Allow-Origin: *
 
-# HTML Pages: immediate revalidation to prevent stale document rendering
+# HTML Pages: immediate revalidation to ensure fresh content & timestamps
 /
   Cache-Control: public, max-age=0, must-revalidate
   Link: <https://fadhil.dev/>; rel="canonical"
@@ -19,7 +17,7 @@
   Cache-Control: public, max-age=0, must-revalidate
   Link: <https://fadhil.dev/>; rel="canonical"
 
-# 404 Error page: Strictly noindex and fresh validation for Cloudflare edge
+# 404 Error page: Strictly noindex and fresh validation
 /404.html
   Cache-Control: public, max-age=0, must-revalidate
   X-Robots-Tag: noindex, follow
@@ -27,16 +25,14 @@
   Cache-Control: public, max-age=0, must-revalidate
   X-Robots-Tag: noindex, follow
 
-# Progressive Web App (PWA) Service Worker
-/sw.js
-  Cache-Control: public, max-age=0, must-revalidate
-  Service-Worker-Allowed: /
-
-# Immutable static assets for 1-year global edge delivery
+# Unhashed application CSS & JS modules: fast edge cache with background revalidation (never immutable)
 /app/*
-  Cache-Control: public, max-age=31536000, immutable
+  Cache-Control: public, max-age=3600, stale-while-revalidate=86400
+
+# Static image & icon assets: 1-year immutable global edge delivery & full image indexing
 /assets/*
   Cache-Control: public, max-age=31536000, immutable
+  X-Robots-Tag: all
 /*.webp
   Cache-Control: public, max-age=31536000, immutable
 /*.avif
@@ -49,18 +45,21 @@
   Cache-Control: public, max-age=31536000, immutable
 /*.ico
   Cache-Control: public, max-age=31536000, immutable
-/*.css
-  Cache-Control: public, max-age=31536000, immutable
-/*.js
-  Cache-Control: public, max-age=31536000, immutable
 
 # Search Engine Optimization & PWA Manifest files
 /site.webmanifest
-  Cache-Control: public, max-age=86400
+  Cache-Control: public, max-age=3600, must-revalidate
   Content-Type: application/manifest+json; charset=utf-8
 /sitemap.xml
-  Cache-Control: public, max-age=86400
+  Cache-Control: public, max-age=3600, must-revalidate
   Content-Type: application/xml; charset=utf-8
+  X-Robots-Tag: noindex, follow
 /robots.txt
-  Cache-Control: public, max-age=86400
+  Cache-Control: public, max-age=3600, must-revalidate
   Content-Type: text/plain; charset=utf-8
+
+# Progressive Web App (PWA) Service Worker (placed last so no rule overrides it)
+/sw.js
+  Cache-Control: public, max-age=0, must-revalidate
+  Service-Worker-Allowed: /
+  Content-Type: application/javascript; charset=utf-8

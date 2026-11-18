@@ -1,18 +1,7 @@
 import fs from 'fs';
 import path from 'path';
 
-const htmlFiles = [
-  'index.html',
-  'en/index.html',
-  'id/index.html',
-  'jp/index.html',
-  'mobile/index.html',
-  'shareideas/index.html',
-  'mindmapmaker/index.html',
-  'Flag-Maker/index.html',
-  'wikipediaindonesia/index.html',
-  '404.html'
-];
+const htmlFiles = ['index.html', '404.html'];
 
 let missingCount = 0;
 for (const file of htmlFiles) {
@@ -29,16 +18,11 @@ for (const file of htmlFiles) {
   let match;
   while ((match = regex.exec(content)) !== null) {
     const rawUrl = match[1];
-    // Strip trailing slash if it's a file
     const cleanUrl = rawUrl.startsWith('/fadhil/') ? rawUrl.slice('/fadhil'.length) : rawUrl;
-    
-    // Check candidate paths on disk
-    const cand1 = path.resolve(process.cwd(), cleanUrl.replace(/^\//, ''));
-    const cand2 = path.resolve(process.cwd(), 'public', cleanUrl.replace(/^\//, ''));
-    const cand3 = path.resolve(process.cwd(), rawUrl.replace(/^\//, ''));
+    if (cleanUrl === '/') continue;
 
-    const exists = fs.existsSync(cand1) || fs.existsSync(cand2) || fs.existsSync(cand3);
-    if (!exists) {
+    const cand = path.resolve(process.cwd(), cleanUrl.replace(/^\//, ''));
+    if (!fs.existsSync(cand)) {
       console.warn(`[${file}] 404 Broken asset: ${rawUrl}`);
       missingCount++;
     }
@@ -48,5 +32,6 @@ for (const file of htmlFiles) {
 if (missingCount === 0) {
   console.log('✓ All internal assets and links exist on disk!');
 } else {
-  console.log(`Found ${missingCount} broken references.`);
+  console.error(`Found ${missingCount} broken references.`);
+  process.exit(1);
 }

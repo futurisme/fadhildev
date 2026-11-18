@@ -1,4 +1,5 @@
 import { initAvifHyperLoadEngine } from './boot.js';
+import { initResponsiveCardOrder } from './responsive.js';
 import { initAudioTriggers } from './audio.js';
 import { initThemeSwitcher } from './theme.js';
 import { initHeroYouTube } from './youtube.js';
@@ -7,8 +8,9 @@ import { initInteractiveUI } from './interactive.js';
 import { initPWA } from './pwa.js';
 
 (() => {
-  // 0. Initialize hyper-load AVIF browser detection
+  // 0. Initialize hyper-load AVIF detection and responsive mobile card ordering
   initAvifHyperLoadEngine();
+  initResponsiveCardOrder();
 
   // 1. Initialize cyber audio triggers
   initAudioTriggers();

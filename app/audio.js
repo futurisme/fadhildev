@@ -4,6 +4,8 @@
  */
 let audioCtx = null;
 let isAudioUnlocked = false;
+let lastClickSoundAt = 0;
+let lastHoverSoundAt = 0;
 
 export const unlockAudio = () => {
   isAudioUnlocked = true;
@@ -17,7 +19,9 @@ export const unlockAudio = () => {
 });
 
 export const getAudioContext = () => {
-  const hasGesture = isAudioUnlocked || (typeof navigator !== 'undefined' && navigator.userActivation && navigator.userActivation.hasBeenActive);
+  const hasGesture =
+    isAudioUnlocked ||
+    (typeof navigator !== 'undefined' && navigator.userActivation && navigator.userActivation.hasBeenActive);
   if (!hasGesture) return null;
   if (!audioCtx) {
     const AudioClass = window.AudioContext || window.webkitAudioContext;
@@ -31,8 +35,18 @@ export const getAudioContext = () => {
 
 export const playCyberSound = (type = 'click') => {
   try {
+    const now = performance.now();
+    if (type === 'hover') {
+      if (now - lastHoverSoundAt < 45) return;
+      lastHoverSoundAt = now;
+    } else {
+      if (now - lastClickSoundAt < 40) return;
+      lastClickSoundAt = now;
+    }
+
     const ctx = getAudioContext();
-    if (!ctx) return;
+    if (!ctx || ctx.state !== 'running') return;
+
     if (type === 'hover') {
       const osc = ctx.createOscillator();
       const gain = ctx.createGain();
@@ -67,18 +81,44 @@ export const playCyberSound = (type = 'click') => {
   } catch (_) {}
 };
 
-export const initAudioTriggers = () => {
-  document.addEventListener('pointerenter', (e) => {
-    const target = e.target;
-    if (target && target.closest && target.closest('a, button, .cyber-action-btn, .skill-pill-item, .core-lang-item, .social-slot-link, .tool-slot-item, .portfolio-card-item')) {
-      playCyberSound('hover');
-    }
-  }, { passive: true, capture: true });
+const INTERACTIVE_SELECTOR =
+  'a, button, .cyber-action-btn, .skill-pill-item, .core-lang-item, .social-slot-link, .tool-slot-item, .portfolio-card-item';
 
-  document.addEventListener('click', (e) => {
-    const target = e.target;
-    if (target && target.closest && target.closest('a, button, .cyber-action-btn, .skill-pill-item, .core-lang-item, .social-slot-link, .tool-slot-item, .portfolio-card-item')) {
-      playCyberSound('click');
-    }
-  }, { passive: true });
+export const initAudioTriggers = () => {
+  let lastHoveredEl = null;
+
+  document.addEventListener(
+    'pointerover',
+    (e) => {
+      const target = e.target;
+      const interactiveEl = target && target.closest ? target.closest(INTERACTIVE_SELECTOR) : null;
+      if (!interactiveEl) {
+        lastHoveredEl = null;
+        return;
+      }
+      if (interactiveEl === lastHoveredEl) return;
+      lastHoveredEl = interactiveEl;
+      playCyberSound('hover');
+    },
+    { passive: true }
+  );
+
+  document.addEventListener(
+    'pointerleave',
+    () => {
+      lastHoveredEl = null;
+    },
+    { passive: true }
+  );
+
+  document.addEventListener(
+    'click',
+    (e) => {
+      const target = e.target;
+      if (target && target.closest && target.closest(INTERACTIVE_SELECTOR)) {
+        playCyberSound('click');
+      }
+    },
+    { passive: true }
+  );
 };

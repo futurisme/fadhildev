@@ -8,4 +8,5 @@ coverage/
 !.env.example
 .playwright-cli/
 .aistudio/
+public/assets/aistudio/
 bun.lock

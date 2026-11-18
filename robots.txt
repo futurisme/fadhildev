@@ -1,21 +1,11 @@
-# robots.txt for https://fadhil.dev
-# Optimized for Googlebot, Bingbot, and modern web crawlers
+# robots.txt for https://fadhil.dev (Updated: 2026-11-17)
+# Unencumbered crawling for Googlebot, Bingbot, Applebot, DuckDuckBot, and modern search indexers
 
 User-agent: *
 Allow: /
-Allow: /assets/
-Allow: /app/
-Allow: /favicon.*
-Allow: /apple-touch-icon.png
-Allow: /site.webmanifest
-Allow: /sitemap.xml
 
-# Prevent crawling of error pages and non-public endpoints
-Disallow: /404.html
-Disallow: /404
-Disallow: /fadhil/404*
-Disallow: /api/
-Disallow: /admin/
-Disallow: /private/
+# Prevent crawling of Cloudflare internal endpoints only
+# Note: /404.html is intentionally NOT disallowed so crawlers observe its HTTP 404 / noindex directive
+Disallow: /cdn-cgi/
 
 Sitemap: https://fadhil.dev/sitemap.xml

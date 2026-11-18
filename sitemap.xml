@@ -5,17 +5,29 @@
   <!-- Authoritative Single Root Page for fadhil.dev -->
   <url>
     <loc>https://fadhil.dev/</loc>
-    <lastmod>2026-10-31</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>1.0</priority>
+    <lastmod>2026-11-17T20:36:00-08:00</lastmod>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://fadhil.dev/" />
     <xhtml:link rel="alternate" hreflang="en" href="https://fadhil.dev/" />
-    <xhtml:link rel="alternate" hreflang="id" href="https://fadhil.dev/" />
-    <xhtml:link rel="alternate" hreflang="ja" href="https://fadhil.dev/" />
     <image:image>
       <image:loc>https://fadhil.dev/assets/images/portfolio-banner.jpg</image:loc>
       <image:title>Fadhil Akbar Cariearsa - Developer Portfolio</image:title>
-      <image:caption>Official portfolio banner of Fadhil Akbar Cariearsa</image:caption>
+      <image:caption>Official developer portfolio banner of Fadhil Akbar Cariearsa</image:caption>
+    </image:image>
+    <image:image>
+      <image:loc>https://fadhil.dev/assets/images/shareideas-banner.jpg</image:loc>
+      <image:title>Share Ideas - Featured Web App by Fadhil Akbar Cariearsa</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://fadhil.dev/assets/images/mindmapmaker-banner.jpg</image:loc>
+      <image:title>Mind Map Maker - Featured Web App by Fadhil Akbar Cariearsa</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://fadhil.dev/assets/images/flagmaker-banner.jpg</image:loc>
+      <image:title>Flag Maker - Static Canvas Engine Tool by Fadhil Akbar Cariearsa</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://fadhil.dev/assets/images/wikipediaindonesia-banner.jpg</image:loc>
+      <image:title>Wikipedia Custom Profile by Fadhil Akbar Cariearsa</image:title>
     </image:image>
   </url>
 </urlset>

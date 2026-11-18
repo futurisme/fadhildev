@@ -4,10 +4,10 @@ import path from 'path';
 const allFiles = [];
 function walk(dir) {
   for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
-    if (['node_modules', '.git', 'dist', '.playwright-cli'].includes(entry.name)) continue;
+    if (['node_modules', '.git', 'dist', '.playwright-cli', 'tests', 'scripts'].includes(entry.name)) continue;
     const full = path.join(dir, entry.name);
     if (entry.isDirectory()) walk(full);
-    else if (/\.(html|css|js|json)$/.test(entry.name)) allFiles.push(full);
+    else if (/\.(html|css|js|webmanifest)$/.test(entry.name)) allFiles.push(full);
   }
 }
 walk('.');
@@ -15,17 +15,29 @@ walk('.');
 const usedAssets = new Set();
 for (const f of allFiles) {
   const content = fs.readFileSync(f, 'utf8');
-  const regex = /(?:src|href|srcset|url)\s*[:=]\s*["'(]?(\/[a-zA-Z0-9_\-./]+)/g;
+  const regex = /["'(](\/[a-zA-Z0-9_\-./]+\.(?:avif|webp|png|jpg|jpeg|svg|ico|webmanifest|mp3|wav|ogg))/g;
   let m;
   while ((m = regex.exec(content)) !== null) {
-    const u = m[1];
-    if (/\.(avif|webp|png|jpg|jpeg|svg|ico|webmanifest|mp3|wav|ogg)$/.test(u)) {
-      usedAssets.add(u.replace(/^\/fadhil\//, '/'));
-    }
+    usedAssets.add(m[1].replace(/^\/fadhil\//, '/'));
   }
 }
 
-console.log('Total referenced assets:', usedAssets.size);
-for (const u of Array.from(usedAssets).sort()) {
-  console.log('  ', u);
+const diskAssets = [];
+function walkAssets(dir) {
+  if (!fs.existsSync(dir)) return;
+  for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
+    const full = path.join(dir, entry.name);
+    if (entry.isDirectory()) walkAssets(full);
+    else diskAssets.push('/' + full.replace(/\\/g, '/'));
+  }
 }
+walkAssets('assets');
+
+const unreferenced = diskAssets.filter((asset) => !usedAssets.has(asset));
+console.log('Total referenced assets:', usedAssets.size);
+console.log('Total files under assets/:', diskAssets.length);
+if (unreferenced.length > 0) {
+  console.warn('Unreferenced files in assets/:', unreferenced);
+  process.exit(1);
+}
+console.log('✓ Zero unreferenced asset files on disk.');
