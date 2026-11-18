@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="robots" content="noindex, nofollow" />
+    <title>Custom Agent-Model SEO & Edge Configuration Inspector (2026-11-18)</title>
+    <link rel="stylesheet" href="/tools/seo-inspector.css" />
+  </head>
+  <body>
+    <div class="agent-shell">
+      <header class="agent-header">
+        <div>
+          <h1 class="agent-title">Agent-Model Browser SEO &amp; Edge Inspector</h1>
+          <p class="agent-subtitle">
+            Standalone 2026-11-18 Audit Engine — Zero External SEO APIs or External Index Dependencies
+          </p>
+        </div>
+        <div class="agent-controls">
+          <button type="button" id="btn-run-audit" class="btn btn-primary">Run Full Agent Audit</button>
+          <button type="button" id="btn-viewport-desktop" class="btn">Desktop Frame (1440px)</button>
+          <button type="button" id="btn-viewport-mobile" class="btn">Mobile Frame (390px)</button>
+          <button type="button" id="btn-export-json" class="btn">Export JSON Report</button>
+        </div>
+      </header>
+
+      <section class="summary-grid" aria-label="Audit scorecard summary">
+        <div class="metric-card">
+          <div class="metric-label">Overall Compliance Score</div>
+          <div id="metric-score" class="metric-value">--</div>
+          <div id="metric-grade" class="metric-sub">Initializing agent...</div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-label">Top-Tier Search Eligibility</div>
+          <div id="metric-eligible" class="metric-value">--</div>
+          <div id="metric-db" class="metric-sub">Database: 2026-11-18</div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-label">Checks Passed / Total</div>
+          <div id="metric-passed" class="metric-value">--</div>
+          <div id="metric-counts" class="metric-sub">Critical/High/Medium breakdown</div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-label">Live Viewport Overflow</div>
+          <div id="metric-overflow" class="metric-value">--</div>
+          <div id="metric-mobile-order" class="metric-sub">Probing live frame...</div>
+        </div>
+      </section>
+
+      <div class="main-split">
+        <section class="panel" aria-labelledby="findings-heading">
+          <h2 id="findings-heading" class="panel-title">Strict Audit Findings &amp; Passed Controls</h2>
+          <div id="findings-container" class="findings-list"></div>
+        </section>
+
+        <div class="agent-side" style="display: grid; gap: 18px; align-content: start;">
+          <section class="panel" aria-labelledby="categories-heading">
+            <h2 id="categories-heading" class="panel-title">Domain Readiness Breakdown (2026-11-18)</h2>
+            <div id="categories-container" class="category-list"></div>
+          </section>
+
+          <section class="panel" aria-labelledby="serp-heading">
+            <h2 id="serp-heading" class="panel-title">Search Result &amp; Social Preview</h2>
+            <div class="serp-box">
+              <div id="serp-url" class="serp-url">--</div>
+              <div id="serp-title" class="serp-title">--</div>
+              <div id="serp-desc" class="serp-desc">--</div>
+            </div>
+            <pre id="social-json" class="code-pre"></pre>
+          </section>
+
+          <section class="panel" aria-labelledby="edge-heading">
+            <h2 id="edge-heading" class="panel-title">Cloudflare Edge &amp; Redirect Simulator</h2>
+            <div class="route-tester">
+              <input id="route-input" class="route-input" type="text" value="/en" aria-label="Test route path" />
+              <button type="button" id="btn-test-route" class="btn">Simulate Route</button>
+            </div>
+            <pre id="route-output" class="code-pre"></pre>
+          </section>
+        </div>
+      </div>
+
+      <section class="panel" aria-labelledby="sandbox-heading">
+        <h2 id="sandbox-heading" class="panel-title">Live Rendered Site Agent Probe (Same-Origin DOM Frame)</h2>
+        <div class="frame-wrap">
+          <iframe id="agent-live-frame" class="live-iframe" src="/" title="Live site target under inspection"></iframe>
+        </div>
+      </section>
+    </div>
+
+    <script type="module" src="/tools/seo-inspector.js"></script>
+  </body>
+</html>

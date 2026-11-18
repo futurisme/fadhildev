@@ -1,4 +1,4 @@
-# Cloudflare Pages Redirect & Static Rewrite Rules for fadhil.dev (Updated: 2026-11-17)
+# Cloudflare Pages Redirect & Static Rewrite Rules for fadhil.dev (Updated: 2026-11-18)
 # Optimized for zero-latency edge delivery, clean canonical consolidation, and backward compatibility
 # Note: Static 404.html is served natively by Cloudflare Pages with HTTP 404 on unknown routes.
 

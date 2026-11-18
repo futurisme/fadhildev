@@ -32,7 +32,7 @@ if (disallowedFiles.length > 0) {
 
 // 2. Syntax check all .js and .mjs files via node --check
 const jsFiles = ['vite.config.js', 'sw.js'];
-for (const dir of ['app', 'scripts', 'tests']) {
+for (const dir of ['app', 'scripts', 'tests', 'tools']) {
   if (!fs.existsSync(dir)) continue;
   for (const entry of fs.readdirSync(dir)) {
     if (/\.(js|mjs)$/.test(entry)) {
@@ -90,29 +90,30 @@ if (/^\/404\s+\/404\.html\s+200/m.test(redirects)) {
   pass('_redirects free of soft-404 rules');
 }
 
-// 6. Verify app/*.js avoids unsafe innerHTML mutations
+// 6. Verify app/*.js and tools/*.js avoid unsafe innerHTML mutations
 const innerHtmlViolations = [];
-if (fs.existsSync('app')) {
-  for (const entry of fs.readdirSync('app')) {
+for (const jsDir of ['app', 'tools']) {
+  if (!fs.existsSync(jsDir)) continue;
+  for (const entry of fs.readdirSync(jsDir)) {
     if (!entry.endsWith('.js')) continue;
-    const content = fs.readFileSync(path.join('app', entry), 'utf8');
+    const content = fs.readFileSync(path.join(jsDir, entry), 'utf8');
     if (/\.innerHTML\s*=/.test(content)) {
-      innerHtmlViolations.push(`app/${entry}`);
+      innerHtmlViolations.push(`${jsDir}/${entry}`);
     }
   }
 }
 if (innerHtmlViolations.length > 0) {
   fail(`Avoid innerHTML assignment in: ${innerHtmlViolations.join(', ')}`);
 } else {
-  pass('app/*.js modules free of innerHTML mutations');
+  pass('app/*.js and tools/*.js modules free of innerHTML mutations');
 }
 
 // 7. If dist/ has been built, verify production HTML & assets were not corrupted by bundler
 if (fs.existsSync('dist/index.html') && fs.existsSync('dist/404.html')) {
   for (const distHtmlName of ['dist/index.html', 'dist/404.html']) {
     const distHtml = fs.readFileSync(distHtmlName, 'utf8');
-    if (!/<link[^>]+rel="stylesheet"[^>]+href="\/app\/styles\.css\?v=20261117b"/.test(distHtml)) {
-      fail(`${distHtmlName} missing <link rel="stylesheet" href="/app/styles.css?v=20261117b">`);
+    if (!/<link[^>]+rel="stylesheet"[^>]+href="\/app\/styles\.css\?v=20261118"/.test(distHtml)) {
+      fail(`${distHtmlName} missing <link rel="stylesheet" href="/app/styles.css?v=20261118">`);
     }
     if (/<script[^>]+src="\/app\/styles\.css/.test(distHtml)) {
       fail(`${distHtmlName} contains broken <script src="/app/styles.css"> rewrite`);

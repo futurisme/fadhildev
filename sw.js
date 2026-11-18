@@ -1,10 +1,10 @@
 /**
  * @license
  * SPDX-License-Identifier: Apache-2.0
- * Fadhil.dev Progressive Web App Service Worker (Updated: November 17, 2026)
+ * Fadhil.dev Progressive Web App Service Worker (Updated: November 18, 2026)
  */
 
-const CACHE_NAME = 'fadhil-pwa-v20261117b';
+const CACHE_NAME = 'fadhil-pwa-v20261118';
 const PRECACHE_ASSETS = [
   '/',
   '/index.html',

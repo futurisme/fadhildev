@@ -40,7 +40,7 @@ test('dist/ build output preserves stylesheet link, sitemap link, and unhashed a
 
   for (const file of ['dist/index.html', 'dist/404.html']) {
     const html = fs.readFileSync(file, 'utf8');
-    assert.match(html, /<link rel="stylesheet" href="\/app\/styles\.css\?v=20261117b" \/>/);
+    assert.match(html, /<link rel="stylesheet" href="\/app\/styles\.css\?v=20261118" \/>/);
     assert.doesNotMatch(html, /<script[^>]+src="\/app\/styles\.css/);
     assert.doesNotMatch(html, /data:text\/xml;base64/i);
   }

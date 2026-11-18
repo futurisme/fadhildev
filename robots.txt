@@ -1,4 +1,4 @@
-# robots.txt for https://fadhil.dev (Updated: 2026-11-17)
+# robots.txt for https://fadhil.dev (Updated: 2026-11-18)
 # Unencumbered crawling for Googlebot, Bingbot, Applebot, DuckDuckBot, and modern search indexers
 
 User-agent: *

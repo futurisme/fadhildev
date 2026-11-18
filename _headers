@@ -1,4 +1,4 @@
-# Cloudflare Pages _headers configuration (Updated: 2026-11-17)
+# Cloudflare Pages _headers configuration (Updated: 2026-11-18)
 # Unencumbered crawling, indexing, edge caching, and modern baseline headers
 
 # Global baseline headers for all routes (no restrictive frame or crawler blocks)

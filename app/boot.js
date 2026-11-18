@@ -1,17 +1,13 @@
 /**
- * AVIF capability detection helper (Updated: November 17, 2026)
- * Avoids redundant probing when inline head detection already resolved.
+ * AVIF decoding capability helper (Updated: November 18, 2026)
+ * Uses actual 1x1 AVIF decode probe only when needed rather than unreliable canvas.toDataURL.
  */
 export const initAvifHyperLoadEngine = () => {
   if (typeof window === 'undefined') return Promise.resolve(false);
 
-  if (window.__AVIF_SUPPORT__ === true) {
-    document.documentElement.classList.add('has-avif');
-    return Promise.resolve(true);
-  }
-  if (window.__AVIF_SUPPORT__ === false) {
-    document.documentElement.classList.add('no-avif');
-    return Promise.resolve(false);
+  if (typeof window.__AVIF_SUPPORT__ === 'boolean') {
+    document.documentElement.classList.add(window.__AVIF_SUPPORT__ ? 'has-avif' : 'no-avif');
+    return Promise.resolve(window.__AVIF_SUPPORT__);
   }
 
   return new Promise((resolve) => {
